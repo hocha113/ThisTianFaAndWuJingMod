@@ -71,7 +71,7 @@ namespace ThisTianFaAndWuJingMod.Content.Item1
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) {
-            
+            target.AddBuff(BuffID.OnFire3, 600);
         }
 
         public override bool PreDraw(ref Color lightColor) {

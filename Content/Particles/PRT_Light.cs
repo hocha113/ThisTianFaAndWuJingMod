@@ -2,14 +2,12 @@
 using ReLogic.Content;
 using System;
 using Terraria;
-using ThisTianFaAndWuJingMod;
 using ThisTianFaAndWuJingMod.Core;
 
-namespace CalamityOverhaul.Content.Particles
+namespace ThisTianFaAndWuJingMod.Content.Particles
 {
     internal class PRT_Light : BaseParticle, ILoader
     {
-        public override string Texture => "ThisTianFaAndWuJingMod/Content/Particles/PRT_Light";
         public override bool UseAdditiveBlend => true;
         public override bool UseCustomDraw => true;
         public override bool SetLifetime => true;
@@ -20,7 +18,7 @@ namespace CalamityOverhaul.Content.Particles
         public float followingRateRatio;
         public Entity entity;
         internal static Asset<Texture2D> BloomTex;
-        void ILoader.LoadAsset() => BloomTex = TFAWUtils.GetT2DAsset("ThisTianFaAndWuJingMod/Content/Particles/BloomCircle");
+        void ILoader.LoadAsset() => BloomTex = TFAWUtils.GetT2DAsset("ThisTianFaAndWuJingMod/Content/Particles/PRT_Light2");
         void ILoader.UnLoadData() => BloomTex = null;
         public PRT_Light(Vector2 position, Vector2 velocity, float scale, Color color, int lifetime, float opacity = 1f
             , float squishStrenght = 1f, float maxSquish = 3f, float hueShift = 0f, Entity _entity = null, float _followingRateRatio = 0.9f) {
@@ -39,9 +37,9 @@ namespace CalamityOverhaul.Content.Particles
         }
 
         public override void AI() {
-            Velocity *= (LifetimeCompletion >= 0.34f) ? 0.93f : 1.02f;
+            Velocity *= LifetimeCompletion >= 0.34f ? 0.93f : 1.02f;
 
-            Opacity = LifetimeCompletion > 0.5f ? ((float)Math.Sin(LifetimeCompletion * MathHelper.Pi) * 0.2f) + 0.8f : (float)Math.Sin(LifetimeCompletion * MathHelper.Pi);
+            Opacity = LifetimeCompletion > 0.5f ? (float)Math.Sin(LifetimeCompletion * MathHelper.Pi) * 0.2f + 0.8f : (float)Math.Sin(LifetimeCompletion * MathHelper.Pi);
             Scale *= 0.95f;
 
             Color = Main.hslToRgb(Main.rgbToHsl(Color).X + HueShift, Main.rgbToHsl(Color).Y, Main.rgbToHsl(Color).Z);
@@ -59,7 +57,7 @@ namespace CalamityOverhaul.Content.Particles
 
             float rot = Velocity.ToRotation() + MathHelper.PiOver2;
             Vector2 origin = tex.Size() / 2f;
-            Vector2 scale = new(Scale - (Scale * squish * 0.3f), Scale * squish);
+            Vector2 scale = new(Scale - Scale * squish * 0.3f, Scale * squish);
             float properBloomSize = tex.Height / (float)bloomTex.Height;
 
             Vector2 drawPosition = Position - Main.screenPosition;

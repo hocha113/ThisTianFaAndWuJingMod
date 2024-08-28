@@ -1,0 +1,22 @@
+Items: {
+	Nemesis: {
+		// DisplayName: Nemesis
+		// Tooltip: ""
+	}
+
+	Endless: {
+		// DisplayName: Endless
+		// Tooltip: ""
+	}
+}
+
+Projectiles: {
+	// EndSkillOrbOnSpan.DisplayName: End Skill Orb On Span
+	// NemesisHeld.DisplayName: Nemesis Held
+	// NemesisProj.DisplayName: Nemesis Proj
+	// BaseKnife.DisplayName: Base Knife
+	// EXNemesisProj.DisplayName: E X Nemesis Proj
+	// NemesisAlt.DisplayName: Nemesis Alt
+	// EndlessHeld.DisplayName: Endless Held
+	// EndlessProj.DisplayName: Endless Proj
+}

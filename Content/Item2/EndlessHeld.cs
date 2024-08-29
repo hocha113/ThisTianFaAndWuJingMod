@@ -1,11 +1,12 @@
-﻿using CalamityOverhaul.Content.Particles;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
+using ThisTianFaAndWuJingMod.Content.Item1;
+using ThisTianFaAndWuJingMod.Content.Particles;
 using ThisTianFaAndWuJingMod.Core;
 
 namespace ThisTianFaAndWuJingMod.Content.Item2
@@ -15,6 +16,7 @@ namespace ThisTianFaAndWuJingMod.Content.Item2
         public override int TargetID => ModContent.ItemType<Endless>();
         public override string trailTexturePath => EffectLoader.AssetPath + "MotionTrail4";
         public override string gradientTexturePath => EffectLoader.AssetPath + "ShaduraGradient";
+        Vector2 TargetPos;
         public override void SetKnifeProperty() {
             Projectile.width = Projectile.height = 282;
             overOffsetCachesRoting = MathHelper.ToRadians(8);
@@ -29,18 +31,71 @@ namespace ThisTianFaAndWuJingMod.Content.Item2
             unitOffsetDrawZkMode = -8;
             SwingData.starArg = 60;
             SwingData.baseSwingSpeed = 9;
+            drawTrailCount = 30;
             ShootSpeed = 20;
             Length = 104;
         }
 
         public override void Shoot() {
-            base.Shoot();
+            if (Projectile.ai[0] == 2 || Projectile.ai[0] == 3) {
+                return;
+            }
+            if (Projectile.ai[0] == 1) {
+                for (int i = 0; i < 33; i++) {
+                    Projectile.NewProjectile(Source, Owner.Center, (MathHelper.TwoPi / 33f * i).ToRotationVector2() * 3
+                    , ModContent.ProjectileType<EndlessChopping>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0, i * 2);
+                }
+                return;
+            }
+            Projectile.NewProjectile(Source, Main.MouseWorld, TFAWUtils.randVr(3, 6)
+                , ModContent.ProjectileType<EndlessChopping>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
         }
 
         public override bool PreInOwnerUpdate() {
             if (Time == 0) {
+                TargetPos = Projectile.Center;
                 SoundEngine.PlaySound(SoundID.Item71, Owner.position);
             }
+
+            if (Projectile.ai[0] == 4) {
+                Owner.Center = Vector2.Lerp(Owner.Center, Projectile.Center, 0.1f);
+                
+                if (Owner.Distance(Projectile.Center) < 160) {
+                    Owner.TFAW().DontUseItemTime = 160;
+
+                    for (int i = 0; i < 333; i++) {
+                        BaseParticle particle = new PRT_Light(Owner.Center, TFAWUtils.randVr(36, 116)
+                        , Main.rand.NextFloat(0.3f, 0.7f), Main.DiscoColor, 12, 0.2f, _entity: Owner);
+                        PRTLoader.AddParticle(particle);
+                    }
+                    
+                    SoundEngine.PlaySound(SoundID.Item69, Owner.position);
+
+                    int maxSpanNum = 23;
+                    for (int i = 0; i < maxSpanNum; i++) {
+                        Vector2 spanPos = Projectile.Center + TFAWUtils.randVr(1380, 2200);
+                        Vector2 vr = spanPos.To(Projectile.Center + TFAWUtils.randVr(180, 320 + 3 * 12)).UnitVector() * 12;
+                        Projectile.NewProjectile(Owner.parent(), spanPos, vr, ModContent.ProjectileType<EndSkillOrbOnSpan>()
+                            , (int)(Projectile.damage * 3.7f), 0, Owner.whoAmI);
+                    }
+                    Projectile.Kill();
+                }
+                return true;
+            }
+
+            if (Projectile.ai[0] == 3) {
+                canSetOwnerArmBver = false;
+                SwingData.baseSwingSpeed = 2;
+                SwingData.maxSwingTime = maxSwingTime = 300;
+                SwingData.ler1_UpLengthSengs = 0;
+                SwingData.ler1_UpSizeSengs = 0;
+                SwingData.ler2_DownSpeedSengs = 0;
+                if (DownLeft && Time > 160) {
+                    Projectile.ai[0] = 4;
+                }
+                return true;
+            }
+
             if (Projectile.ai[0] == 0) {
                 SwingData.baseSwingSpeed = 4;
             }
@@ -68,6 +123,29 @@ namespace ThisTianFaAndWuJingMod.Content.Item2
                 }
             }
             return base.PreInOwnerUpdate();
+        }
+
+        public override Vector2 GetDrawTrailOrig() {
+            if (Projectile.ai[0] == 3 || Projectile.ai[0] == 4) {
+                return Projectile.Center;
+            }
+            return base.GetDrawTrailOrig();
+        }
+
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) {
+            if (Projectile.ai[0] == 3) {
+                return TFAWUtils.CircularHitboxCollision(Projectile.Center, 280, targetHitbox);
+            }
+            return base.Colliding(projHitbox, targetHitbox);
+        }
+
+        public override void PostInOwnerUpdate() {
+            if (Projectile.ai[0] == 3 || Projectile.ai[0] == 4) {
+                if (Projectile.ai[0] != 4) {
+                    TargetPos = Vector2.Lerp(TargetPos, InMousePos, 0.04f);
+                }
+                Projectile.Center = TargetPos;
+            }  
         }
 
         static void killAction(NPC npc) {

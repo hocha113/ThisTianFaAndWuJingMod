@@ -10,6 +10,7 @@ namespace ThisTianFaAndWuJingMod.Content.Item1
     internal class NemesisProj : ModProjectile
     {
         private bool canHeal;
+        private bool spwanProj;
         public override void SetDefaults() {
             Projectile.width = Projectile.height = 54;
             Projectile.timeLeft = 120;
@@ -67,10 +68,11 @@ namespace ThisTianFaAndWuJingMod.Content.Item1
                 dust.velocity += dustVelocity * (0.6f + (13.6f * Main.rand.NextFloat()));
             }
             Projectile.Explode(360);
-            if (Projectile.ai[0] == 0 && Projectile.numHits == 0) {
+            if (Projectile.ai[0] == 0 && !spwanProj && player.ownedProjectileCounts[Type] < 136) {
                 Vector2 ver = player.Center.To(Projectile.Center).UnitVector() * -18;
                 Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, ver.RotatedByRandom(0.22f)
                     , Type, Projectile.damage / 2, Projectile.knockBack / 2, Projectile.owner, 1);
+                spwanProj = true;
             }
         }
 

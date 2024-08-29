@@ -1,12 +1,28 @@
 Items: {
 	Nemesis: {
 		DisplayName: Nemesis
-		Tooltip: ""
+		Tooltip:
+			'''
+			Left click attack to summon a large number of dragon meteorites at the cursor
+			True melee will generate healing balls
+			Summon the Heavenly Punishment every six true melee battles
+			Press and hold the right button to store power
+			After fully charged, the rotating blade rapidly swings out a large number of cuts
+			'''
 	}
 
 	Endless: {
-		DisplayName: Endless
-		Tooltip: ""
+		DisplayName: Ultimate Infinite Star
+		Tooltip:
+			'''
+			Left click to generate a slash at the cursor
+			Release a spin slash every six times
+			Press and hold the right button to throw the weapon out and rotate it at the cursor
+			Press the left button again to sprint towards the weapon and release the dimensional slash
+			Press and hold the left or right button on W to attack and release annihilation
+			Eliminate full screen hostile creatures
+			"The origin and the ultimate of all things"
+			'''
 	}
 }
 

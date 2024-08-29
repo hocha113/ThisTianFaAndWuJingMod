@@ -668,6 +668,8 @@ namespace ThisTianFaAndWuJingMod.Core
             return drawTrailBtommWidth * Projectile.scale;
         }
 
+        public virtual Vector2 GetDrawTrailOrig() => Owner.GetPlayerStabilityCenter();
+
         public virtual void DrawSlashTrail() {
             List<VertexPositionColorTexture> bars = [];
             GetCurrentTrailCount(out float count);
@@ -677,7 +679,7 @@ namespace ThisTianFaAndWuJingMod.Core
                     continue;
 
                 float factor = 1f - i / count;
-                Vector2 Center = Owner.GetPlayerStabilityCenter();
+                Vector2 Center = GetDrawTrailOrig();
                 Vector2 Top = Center + oldRotate[i].ToRotationVector2() * (oldLength[i] + drawTrailTopWidth * meleeSizeAsymptotic + oldDistanceToOwner[i]) * meleeSizeAsymptotic;
                 Vector2 Bottom = Center + oldRotate[i].ToRotationVector2() * (oldLength[i] - ControlTrailBottomWidth(factor) + oldDistanceToOwner[i]) * meleeSizeAsymptotic;
 

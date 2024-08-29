@@ -1,12 +1,12 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
-using Terraria.GameContent;
+using System;
 using Terraria;
+using Terraria.GameContent;
+using Terraria.Graphics.CameraModifiers;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityOverhaul.Content.Particles;
+using ThisTianFaAndWuJingMod.Content.Particles;
 using ThisTianFaAndWuJingMod.Core;
-using System;
-using Terraria.Graphics.CameraModifiers;
 
 namespace ThisTianFaAndWuJingMod.Content.Item1
 {

@@ -1,9 +1,12 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
+using Mono.Cecil;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.Audio;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
+using ThisTianFaAndWuJingMod.Content.Item2;
 using ThisTianFaAndWuJingMod.Core;
 
 namespace ThisTianFaAndWuJingMod.Content.Item1
@@ -65,12 +68,10 @@ namespace ThisTianFaAndWuJingMod.Content.Item1
                 }
             }
 
-            if (Projectile.timeLeft == 50 && onOrb) {
-                //SoundEngine.PlaySound(ModSound.EndSilkOrbSpanSound with { Volume = 0.1f }, Projectile.Center);
-                //if (Projectile.IsOwnedByLocalPlayer()) {
-                //    Projectile.NewProjectile(Projectile.parent(), new Vector2(Projectile.ai[0], Projectile.ai[1]), Projectile.velocity, ModContent.ProjectileType<MurasamaEndSkillOrb>()
-                //, Projectile.damage, 0, Projectile.owner, Projectile.velocity.ToRotation(), Main.rand.Next(100));
-                //}
+            if (Projectile.timeLeft == 50 && onOrb && Projectile.IsOwnedByLocalPlayer()) {
+                SoundEngine.PlaySound(SoundID.Item69 with { Pitch = 1.24f }, Projectile.position);
+                Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center, TFAWUtils.randVr(3, 6)
+                , ModContent.ProjectileType<EndlessChopping>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
 
                 onOrb = false;
             }

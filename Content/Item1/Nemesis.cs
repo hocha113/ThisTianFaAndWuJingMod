@@ -1,17 +1,34 @@
 ﻿using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameContent.Creative;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace ThisTianFaAndWuJingMod.Content.Item1
 {
-    internal class Nemesis : ModItem
+    internal class Nemesis : ModItem, ILoader
     {
+        static string[] fullItems = ["0", "0", "0", "0", "0", "0", "0", "3458", "3458",
+            "0", "0", "0", "0", "0", "0", "3458", "CalamityMod/TheBurningSky", "3458",
+            "0", "0", "0", "0", "0", "3458", "CalamityOverhaul/BlackMatterStick", "3458", "0",
+            "0", "0", "0", "0", "3458", "CalamityOverhaul/BlackMatterStick", "3458", "0", "0",
+            "0", "0", "0", "3458", "CalamityOverhaul/BlackMatterStick", "3458", "0", "0", "0",
+            "0", "0", "3458", "CalamityOverhaul/BlackMatterStick", "3458", "0", "0", "0", "0",
+            "3458", "3458", "CalamityOverhaul/BlackMatterStick", "3458", "0", "0", "0", "0", "0",
+            "3458", "CalamityOverhaul/BlackMatterStick", "3458", "0", "0", "0", "0", "0", "0",
+            "CalamityMod/Earth", "3458", "3458", "0", "0", "0", "0", "0", "0",
+            "ThisTianFaAndWuJingMod/Nemesis"
+        ];
         private int fireIndex;
+        void ILoader.LoadData() {
+            if (TFAWMod.Instance.CWRMod != null) {
+                TFAWMod.Instance.CWRMod.Call(0, fullItems);
+            }
+        }
         public override void SetDefaults() {
             Item.height = 154;
             Item.width = 154;
-            Item.damage = 500;
+            Item.damage = 420;
             Item.DamageType = DamageClass.Melee;
             Item.useAnimation = Item.useTime = 20;
             Item.scale = 1;
@@ -44,6 +61,15 @@ namespace ThisTianFaAndWuJingMod.Content.Item1
             }
             Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, newLevel);
             return false;
+        }
+
+        public override void AddRecipes() {
+            if (TFAWMod.Instance.CWRMod != null) {
+                return;
+            }
+            CreateRecipe().
+                AddIngredient(ItemID.DirtBlock, 1).
+                Register();
         }
     }
 }

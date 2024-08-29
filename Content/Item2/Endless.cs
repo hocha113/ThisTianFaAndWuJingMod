@@ -6,13 +6,30 @@ using ThisTianFaAndWuJingMod.Content.Item1;
 using Terraria.Localization;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.UI.Chat;
+using Microsoft.Xna.Framework.Input;
 
 namespace ThisTianFaAndWuJingMod.Content.Item2
 {
-    internal class Endless : ModItem
+    internal class Endless : ModItem, ILoader
     {
+        static string[] fullItems = ["0", "0", "0", "0", "0", "0", "0", "CalamityOverhaul/InfiniteIngot", "CalamityOverhaul/InfiniteIngot",
+            "0", "0", "0", "0", "0", "0", "CalamityOverhaul/InfiniteIngot", "CalamityOverhaul/NeutronGlaive", "CalamityOverhaul/InfiniteIngot",
+            "0", "0", "0", "0", "0", "CalamityOverhaul/InfiniteIngot", "ThisTianFaAndWuJingMod/Nemesis", "CalamityOverhaul/InfiniteIngot", "0",
+            "0", "0", "0", "0", "CalamityOverhaul/InfiniteIngot", "CalamityMod/ArkoftheCosmos", "CalamityOverhaul/InfiniteIngot", "0", "0",
+            "CalamityOverhaul/InfiniteIngot", "CalamityOverhaul/InfiniteIngot", "0", "CalamityOverhaul/InfiniteIngot", "4956", "CalamityOverhaul/InfiniteIngot", "0", "0", "0",
+            "CalamityOverhaul/InfiniteIngot", "CalamityMod/Murasama", "CalamityOverhaul/InfiniteIngot", "CalamityMod/IridescentExcalibur", "CalamityOverhaul/InfiniteIngot", "0", "0", "0", "0",
+            "0", "CalamityOverhaul/InfiniteIngot", "CalamityMod/Ataraxia", "CalamityOverhaul/InfiniteIngot", "0", "0", "0", "0", "0",
+            "CalamityOverhaul/InfiniteIngot", "CalamityMod/GaelsGreatsword", "CalamityOverhaul/InfiniteIngot", "CalamityMod/Exoblade", "CalamityOverhaul/InfiniteIngot", "0", "0", "0", "0",
+            "CalamityOverhaul/DawnshatterAzure", "CalamityOverhaul/InfiniteIngot", "0", "CalamityOverhaul/InfiniteIngot", "CalamityOverhaul/InfiniteIngot", "0", "0", "0", "0",
+            "ThisTianFaAndWuJingMod/Endless"
+        ];
         public static Color[] rainbowColors = [Color.Red, Color.Orange, Color.Yellow, Color.Green, Color.Blue, Color.Indigo, Color.Violet];
         private int fireIndex;
+        void ILoader.LoadData() {
+            if (TFAWMod.Instance.CWRMod != null) {
+                TFAWMod.Instance.CWRMod.Call(0, fullItems);
+            }
+        }
         public override void SetDefaults() {
             Item.height = 154;
             Item.width = 154;
@@ -67,10 +84,23 @@ namespace ThisTianFaAndWuJingMod.Content.Item2
                 fireIndex = 0;
             }
             if (player.altFunctionUse == 2) {
+                newLevel = 3;
+            }
+            KeyboardState state = Keyboard.GetState();
+            if (state.IsKeyDown(Keys.W)) {
                 newLevel = 2;
             }
             Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, newLevel);
             return false;
+        }
+
+        public override void AddRecipes() {
+            if (TFAWMod.Instance.CWRMod != null) {
+                return;
+            }
+            CreateRecipe().
+                AddIngredient(ItemID.DirtBlock, 1).
+                Register();
         }
     }
 }

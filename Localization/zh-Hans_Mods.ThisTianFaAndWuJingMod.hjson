@@ -1,12 +1,17 @@
 Items: {
 	Nemesis: {
-		// DisplayName: Nemesis
-		// Tooltip: ""
+		DisplayName: 天罚
+		Tooltip:
+			'''
+			1121432
+			132154
+			154
+			'''
 	}
 
 	Endless: {
-		// DisplayName: Endless
-		// Tooltip: ""
+		DisplayName: 无尽星空
+		Tooltip: ""
 	}
 }
 
@@ -19,4 +24,5 @@ Projectiles: {
 	// NemesisAlt.DisplayName: Nemesis Alt
 	// EndlessHeld.DisplayName: Endless Held
 	// EndlessProj.DisplayName: Endless Proj
+	// EndlessChopping.DisplayName: Endless Chopping
 }

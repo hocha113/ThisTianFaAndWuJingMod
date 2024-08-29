@@ -41,7 +41,7 @@ namespace ThisTianFaAndWuJingMod.Content.Item1
                 type = ModContent.ProjectileType<NemesisAlt>();
 
                 Projectile.NewProjectile(Source, ShootSpanPos, ShootVelocity.RotatedByRandom(0.66f)
-                    , type, Projectile.damage * 4, Projectile.knockBack, Owner.whoAmI, 0f, 0);
+                    , type, Projectile.damage * 5, Projectile.knockBack, Owner.whoAmI, 0f, 0);
 
                 return;
             }
@@ -52,7 +52,7 @@ namespace ThisTianFaAndWuJingMod.Content.Item1
                 pos.Y -= 800;
                 pos.X -= Owner.direction * 320;
                 Vector2 ver = new Vector2(Owner.direction * 2, 6);
-                Projectile.NewProjectile(Source, pos, ver, type, Projectile.damage * 10
+                Projectile.NewProjectile(Source, pos, ver, type, Projectile.damage * 5
                     , Projectile.knockBack, Owner.whoAmI, 0f, 0);
                 return;
             }
@@ -65,8 +65,8 @@ namespace ThisTianFaAndWuJingMod.Content.Item1
                 Vector2 ver = (spwanPos.To(InMousePos)).UnitVector() * 26;
                 ver = ver.RotatedByRandom(0.2f);
                 ver *= Main.rand.NextFloat(0.6f, 1.33f);
-                Projectile.NewProjectile(Source, spwanPos, ver, type, Projectile.damage
-                    , Projectile.knockBack, Owner.whoAmI, 0f, (float)Main.rand.Next(10));
+                Projectile.NewProjectile(Source, spwanPos, ver, type, Projectile.damage / 4
+                    , Projectile.knockBack, Owner.whoAmI, 0f, 0);
             }
         }
 
@@ -133,12 +133,14 @@ namespace ThisTianFaAndWuJingMod.Content.Item1
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) {
-            int type = ModContent.ProjectileType<NemesisProj>();
-            for (int i = 0; i < 6; i++) {
-                Vector2 spwanPos = target.Center;
-                Vector2 ver = TFAWUtils.randVr(3, 18);
-                Projectile.NewProjectile(Source, spwanPos, ver, type, Projectile.damage
-                    , Projectile.knockBack, Owner.whoAmI, 1f, (float)Main.rand.Next(10));
+            if (Projectile.numHits == 0) {
+                int type = ModContent.ProjectileType<NemesisProj>();
+                for (int i = 0; i < 6; i++) {
+                    Vector2 spwanPos = target.Center;
+                    Vector2 ver = TFAWUtils.randVr(3, 18);
+                    Projectile.NewProjectile(Source, spwanPos, ver, type, Projectile.damage
+                        , Projectile.knockBack, Owner.whoAmI, 1f, 0);
+                }
             }
         }
 

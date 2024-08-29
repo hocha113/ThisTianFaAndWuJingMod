@@ -1,3 +1,3 @@
-displayName = Discipline
-author = HoCha113
-version = 0.1
+displayName = Ultimate Infinite Star
+author = 锯角
+version = 0.3

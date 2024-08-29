@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -14,7 +15,7 @@ namespace ThisTianFaAndWuJingMod.Content.Item1
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Melee;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 10;
+            Projectile.localNPCHitCooldown = 4;
             Projectile.penetrate = -1;
             Projectile.extraUpdates = 2;
             Projectile.tileCollide = false;
@@ -30,7 +31,30 @@ namespace ThisTianFaAndWuJingMod.Content.Item1
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) {
-            base.OnHitNPC(target, hit, damageDone);
+            float thirdDustScale = Main.rand.NextFloat(2, 4);
+            Vector2 dustRotation = (target.rotation - MathHelper.PiOver2).ToRotationVector2();
+            Vector2 dustVelocity = dustRotation * target.velocity.Length() / 6;
+            _ = SoundEngine.PlaySound(SoundID.Item14, target.Center);
+            for (int j = 0; j < 60; j++) {
+                thirdDustScale = Main.rand.NextFloat(2, 4);
+                bool noGvk = true;
+                int dustId = DustID.InfernoFork;
+                if (Main.rand.NextBool(2)) {
+                    thirdDustScale /= 6f;
+                    noGvk = false;
+                    dustId = DustID.FireworkFountain_Red;
+                }
+                int contactDust2 = Dust.NewDust(new Vector2(target.position.X, target.position.Y), target.width
+                    , target.height, dustId, 0f, 0f, 0, default, thirdDustScale);
+                Dust dust = Main.dust[contactDust2];
+                dust.position = target.Center + (Vector2.UnitX.RotatedByRandom(MathHelper.Pi)
+                    .RotatedBy(target.velocity.ToRotation()) * target.width / 3f) * Main.rand.NextFloat();
+                dust.noGravity = noGvk;
+                dust.velocity = Projectile.velocity;
+                dust.velocity *= 1.5f;
+                dust.velocity += dustVelocity * (0.6f + (13.6f * Main.rand.NextFloat()));
+            }
+            Projectile.damage = (int)(Projectile.damage * 0.9f);
         }
 
         public override bool PreDraw(ref Color lightColor) {

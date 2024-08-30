@@ -2,7 +2,6 @@ global using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace ThisTianFaAndWuJingMod
@@ -21,6 +20,7 @@ namespace ThisTianFaAndWuJingMod
         }
         internal static List<ILoader> ILoaders { get; private set; }
         public override void Load() {
+            CWRMod = null;
             ModLoader.TryGetMod("CalamityOverhaul", out CWRMod);
             ILoaders = TFAWUtils.GetSubInterface<ILoader>();
             foreach (ILoader setup in ILoaders) {
@@ -43,6 +43,7 @@ namespace ThisTianFaAndWuJingMod
                 setup.UnLoadData();
                 setup.DompUnLoadText();
             }
+            ILoaders = null;
         }
     }
 }

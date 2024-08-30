@@ -23,6 +23,27 @@ namespace ThisTianFaAndWuJingMod.Content.Item2
             "CalamityOverhaul/DawnshatterAzure", "CalamityOverhaul/InfiniteIngot", "0", "CalamityOverhaul/InfiniteIngot", "CalamityOverhaul/InfiniteIngot", "0", "0", "0", "0",
             "ThisTianFaAndWuJingMod/Endless"
         ];
+        public override void AddRecipes() {
+            if (TFAWMod.Instance.ModHasSetVst) {
+                Recipe recipe = CreateRecipe().
+                    AddIngredient(TFAWMod.Instance.CWRMod.Find<ModItem>("DawnshatterAzure"), 1).
+                    AddIngredient(TFAWMod.Instance.CWRMod.Find<ModItem>("NeutronGlaive"), 1).
+                    AddIngredient(ItemID.Zenith, 1).
+                    AddIngredient(ModLoader.GetMod("CalamityMod").Find<ModItem>("ArkoftheCosmos"), 1).
+                    AddIngredient(ModLoader.GetMod("CalamityMod").Find<ModItem>("Murasama"), 1).
+                    AddIngredient(ModLoader.GetMod("CalamityMod").Find<ModItem>("IridescentExcalibur"), 1).
+                    AddIngredient(ModLoader.GetMod("CalamityMod").Find<ModItem>("Ataraxia"), 1).
+                    AddIngredient(ModLoader.GetMod("CalamityMod").Find<ModItem>("GaelsGreatsword"), 1).
+                    AddIngredient(ModLoader.GetMod("CalamityMod").Find<ModItem>("Exoblade"), 1).
+                    AddIngredient(TFAWMod.Instance.CWRMod.Find<ModItem>("InfiniteIngot"), 23).
+                    AddTile(TFAWMod.Instance.CWRMod.Find<ModTile>("TransmutationOfMatter").Type);
+                ((Recipe)TFAWMod.Instance.CWRMod.Call(2, recipe)).Register();
+                return;
+            }
+            CreateRecipe().
+                AddIngredient(ItemID.DirtBlock, 1).
+                Register();
+        }
         public static Color[] rainbowColors = [Color.Red, Color.Orange, Color.Yellow, Color.Green, Color.Blue, Color.Indigo, Color.Violet];
         private int fireIndex;
         void ILoader.LoadData() {
@@ -50,6 +71,9 @@ namespace ThisTianFaAndWuJingMod.Content.Item2
             Item.SetKnifeHeld<EndlessHeld>();
             fireIndex = 0;
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Type] = true;
+            if (TFAWMod.Instance.ModHasSetVst) {
+                TFAWMod.Instance.CWRMod.Call(1, Item, fullItems);
+            }
         }
 
         public override void ModifyWeaponCrit(Player player, ref float crit) {
@@ -92,15 +116,6 @@ namespace ThisTianFaAndWuJingMod.Content.Item2
             }
             Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, newLevel);
             return false;
-        }
-
-        public override void AddRecipes() {
-            if (TFAWMod.Instance.ModHasSetVst) {
-                return;
-            }
-            CreateRecipe().
-                AddIngredient(ItemID.DirtBlock, 1).
-                Register();
         }
     }
 }

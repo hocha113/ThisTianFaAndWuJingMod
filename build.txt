@@ -1,3 +1,4 @@
 displayName = Ultimate Infinite Star
+weakReferences = CalamityOverhaul@0.4046
 author = 锯角
-version = 0.4
+version = 1.0

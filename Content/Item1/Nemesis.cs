@@ -8,6 +8,7 @@ namespace ThisTianFaAndWuJingMod.Content.Item1
 {
     internal class Nemesis : ModItem, ILoader
     {
+        private int fireIndex;
         static string[] fullItems = ["0", "0", "0", "0", "0", "0", "0", "3458", "3458",
             "0", "0", "0", "0", "0", "0", "3458", "CalamityMod/TheBurningSky", "3458",
             "0", "0", "0", "0", "0", "3458", "CalamityOverhaul/BlackMatterStick", "3458", "0",
@@ -19,7 +20,21 @@ namespace ThisTianFaAndWuJingMod.Content.Item1
             "CalamityMod/Earth", "3458", "3458", "0", "0", "0", "0", "0", "0",
             "ThisTianFaAndWuJingMod/Nemesis"
         ];
-        private int fireIndex;
+        public override void AddRecipes() {
+            if (TFAWMod.Instance.ModHasSetVst) {
+                Recipe recipe = CreateRecipe().
+                    AddIngredient(ModLoader.GetMod("CalamityMod").Find<ModItem>("TheBurningSky"), 1).
+                    AddIngredient(ModLoader.GetMod("CalamityMod").Find<ModItem>("Earth"), 1).
+                    AddIngredient(TFAWMod.Instance.CWRMod.Find<ModItem>("BlackMatterStick"), 6).
+                    AddIngredient(ItemID.FragmentSolar, 19).
+                    AddTile(TFAWMod.Instance.CWRMod.Find<ModTile>("TransmutationOfMatter").Type);
+                ((Recipe)TFAWMod.Instance.CWRMod.Call(2, recipe)).Register();
+                return;
+            }
+            CreateRecipe().
+                AddIngredient(ItemID.DirtBlock, 1).
+                Register();
+        }
         void ILoader.LoadData() {
             if (TFAWMod.Instance.ModHasSetVst) {
                 TFAWMod.Instance.CWRMod.Call(0, fullItems);
@@ -45,6 +60,9 @@ namespace ThisTianFaAndWuJingMod.Content.Item1
             Item.SetKnifeHeld<NemesisHeld>();
             fireIndex = 0;
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Type] = true;
+            if (TFAWMod.Instance.ModHasSetVst) {
+                TFAWMod.Instance.CWRMod.Call(1, Item, fullItems);
+            }
         }
 
         public override bool AltFunctionUse(Player player) => true;
@@ -61,15 +79,6 @@ namespace ThisTianFaAndWuJingMod.Content.Item1
             }
             Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, newLevel);
             return false;
-        }
-
-        public override void AddRecipes() {
-            if (TFAWMod.Instance.ModHasSetVst) {
-                return;
-            }
-            CreateRecipe().
-                AddIngredient(ItemID.DirtBlock, 1).
-                Register();
         }
     }
 }

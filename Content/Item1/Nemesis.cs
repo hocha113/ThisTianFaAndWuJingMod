@@ -21,7 +21,7 @@ namespace ThisTianFaAndWuJingMod.Content.Item1
         ];
         private int fireIndex;
         void ILoader.LoadData() {
-            if (TFAWMod.Instance.CWRMod != null) {
+            if (TFAWMod.Instance.ModHasSetVst) {
                 TFAWMod.Instance.CWRMod.Call(0, fullItems);
             }
         }
@@ -64,7 +64,7 @@ namespace ThisTianFaAndWuJingMod.Content.Item1
         }
 
         public override void AddRecipes() {
-            if (TFAWMod.Instance.CWRMod != null) {
+            if (TFAWMod.Instance.ModHasSetVst) {
                 return;
             }
             CreateRecipe().

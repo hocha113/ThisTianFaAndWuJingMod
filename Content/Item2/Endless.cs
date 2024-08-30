@@ -26,7 +26,7 @@ namespace ThisTianFaAndWuJingMod.Content.Item2
         public static Color[] rainbowColors = [Color.Red, Color.Orange, Color.Yellow, Color.Green, Color.Blue, Color.Indigo, Color.Violet];
         private int fireIndex;
         void ILoader.LoadData() {
-            if (TFAWMod.Instance.CWRMod != null) {
+            if (TFAWMod.Instance.ModHasSetVst) {
                 TFAWMod.Instance.CWRMod.Call(0, fullItems);
             }
         }
@@ -95,7 +95,7 @@ namespace ThisTianFaAndWuJingMod.Content.Item2
         }
 
         public override void AddRecipes() {
-            if (TFAWMod.Instance.CWRMod != null) {
+            if (TFAWMod.Instance.ModHasSetVst) {
                 return;
             }
             CreateRecipe().

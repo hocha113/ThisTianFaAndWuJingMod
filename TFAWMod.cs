@@ -1,4 +1,5 @@
 global using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
@@ -10,6 +11,14 @@ namespace ThisTianFaAndWuJingMod
 	{
         public static TFAWMod Instance => (TFAWMod)ModLoader.GetMod("ThisTianFaAndWuJingMod");
         public Mod CWRMod;
+        public bool ModHasSetVst {
+            get {
+                if (CWRMod == null) {
+                    return false;
+                }
+                return CWRMod.Version >= new Version(0, 4044);
+            }
+        }
         internal static List<ILoader> ILoaders { get; private set; }
         public override void Load() {
             ModLoader.TryGetMod("CalamityOverhaul", out CWRMod);

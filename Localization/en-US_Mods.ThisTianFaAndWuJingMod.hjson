@@ -36,4 +36,5 @@ Projectiles: {
 	EndlessHeld.DisplayName: Endless Held
 	EndlessProj.DisplayName: Endless Proj
 	EndlessChopping.DisplayName: Endless Chopping
+	SpwanTextProj.DisplayName: Spwan Text Proj
 }

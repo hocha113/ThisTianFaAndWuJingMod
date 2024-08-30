@@ -8,6 +8,9 @@
 		
 	</PropertyGroup>
 	<ItemGroup>
+	  <AdditionalFiles Remove="description_workshop.txt" />
+	</ItemGroup>
+	<ItemGroup>
 	  <None Remove="Asset\GenericBarBack.png" />
 	  <None Remove="Asset\GenericBarFront.png" />
 	  <None Remove="Asset\KnifeRendering.fx" />

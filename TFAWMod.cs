@@ -16,7 +16,7 @@ namespace ThisTianFaAndWuJingMod
                 if (CWRMod == null) {
                     return false;
                 }
-                return CWRMod.Version >= new Version(0, 4044);
+                return CWRMod.Version >= new Version(0, 4046);
             }
         }
         internal static List<ILoader> ILoaders { get; private set; }

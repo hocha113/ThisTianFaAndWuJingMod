@@ -16,6 +16,9 @@ namespace ThisTianFaAndWuJingMod.Content.Item2
             Projectile.localNPCHitCooldown = 10;
             Projectile.timeLeft = 300;
             Projectile.extraUpdates = 2;
+            if (TFAWMod.Instance.ModHasSetVst) {
+                Projectile.DamageType = TFAWMod.Instance.CWRMod.Find<DamageClass>("EndlessDamageClass");
+            }
         }
 
         public override void AI() {

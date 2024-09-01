@@ -37,4 +37,6 @@ Projectiles: {
 	EndlessProj.DisplayName: Endless Proj
 	EndlessChopping.DisplayName: Endless Chopping
 	SpwanTextProj.DisplayName: Spwan Text Proj
+	EndlessHeldAlt.DisplayName: Endless Held Alt
+	EXEndlessProj.DisplayName: E X Endless Proj
 }

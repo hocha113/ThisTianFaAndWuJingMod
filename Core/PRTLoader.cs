@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace ThisTianFaAndWuJingMod.Core
         private static List<BaseParticle> batched_AlphaBlend_DRK;
         private static List<BaseParticle> batched_NonPremultiplied_DRK;
         private static List<BaseParticle> batched_AdditiveBlend_DRK;
+        private static List<BaseParticle> batched_SpecialColoring_DRK;
 
         public static int GetParticlesCount() => particles.Count;
         public static int GetParticlesCount(int fxType) {
@@ -64,6 +66,7 @@ namespace ThisTianFaAndWuJingMod.Core
             batched_AlphaBlend_DRK = [];
             batched_NonPremultiplied_DRK = [];
             batched_AdditiveBlend_DRK = [];
+            batched_SpecialColoring_DRK = [];
 
             ParticleCoreInds = TFAWUtils.HanderSubclass<BaseParticle>(false);
             foreach (var particleType in ParticleCoreInds) {
@@ -89,6 +92,7 @@ namespace ThisTianFaAndWuJingMod.Core
             batched_AlphaBlend_DRK = null;
             batched_NonPremultiplied_DRK = null;
             batched_AdditiveBlend_DRK = null;
+            batched_SpecialColoring_DRK = null;
 
             On_Main.DrawInfernoRings -= CWRDrawForegroundParticles;
         }
@@ -177,7 +181,10 @@ namespace ThisTianFaAndWuJingMod.Core
                 if (particle == null) {
                     continue;
                 }
-                if (particle.UseAdditiveBlend) {
+                if (particle.SpecialColoring) {
+                    batched_SpecialColoring_DRK.Add(particle);
+                }
+                else if(particle.UseAdditiveBlend) {
                     batched_AdditiveBlend_DRK.Add(particle);
                 }
                 else if (particle.UseHalfTransparency) {
@@ -248,9 +255,18 @@ namespace ThisTianFaAndWuJingMod.Core
                 sb.End();
             }
 
+            if (batched_SpecialColoring_DRK.Count > 0) {
+                sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.PointClamp, DepthStencilState.Default, rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+                foreach (BaseParticle value in batched_SpecialColoring_DRK) {
+                    value.SpecialColoringDraw(sb);
+                }
+                sb.End();
+            }
+
             batched_AlphaBlend_DRK.Clear();
             batched_NonPremultiplied_DRK.Clear();
             batched_AdditiveBlend_DRK.Clear();
+            batched_SpecialColoring_DRK.Clear();
 
             sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.Transform);
         }

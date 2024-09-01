@@ -34,7 +34,7 @@ namespace ThisTianFaAndWuJingMod.Content.Item2
                 Projectile.velocity = Vector2.Zero;
                 for (int i = 0; i < 133; i++) {
                     Vector2 ver = origVer.UnitVector() * ((i / 133f) * 133 + 0.1f);
-                    Color color = TFAWUtils.MultiStepColorLerp(i / 133f, Endless.rainbowColors);
+                    Color color = Color.BlueViolet;
                     BaseParticle spark = new PRT_Spark(Projectile.Center, -ver, false, 19, 2.3f, color);
                     PRTLoader.AddParticle(spark);
                     BaseParticle spark2 = new PRT_Spark(Projectile.Center, ver, false, 19, 2.3f, color);

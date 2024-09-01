@@ -16,6 +16,10 @@ namespace ThisTianFaAndWuJingMod.Core
         /// </summary>
         public int Time;
         /// <summary>
+        /// 是否进行特殊着色
+        /// </summary>
+        public virtual bool SpecialColoring => false;
+        /// <summary>
         /// 如果你需要在达到粒子上限的情况下渲染粒子，将此设置为<see langword="true"/>
         /// </summary>
         public virtual bool Important => false;
@@ -75,6 +79,10 @@ namespace ThisTianFaAndWuJingMod.Core
         /// 如果想自己处理粒子绘制,请使用此方法。只在UseCustomDraw设置为true时调用
         /// </summary>
         public virtual void CustomDraw(SpriteBatch spriteBatch) { }
+        /// <summary>
+        /// 特殊着色绘制
+        /// </summary>
+        public virtual void SpecialColoringDraw(SpriteBatch spriteBatch) { }
         /// <summary>
         /// 仅仅在生成粒子的时候被执行一次，用于简单的内部初始化数据
         /// </summary>

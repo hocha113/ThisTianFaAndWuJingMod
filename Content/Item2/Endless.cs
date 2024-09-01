@@ -1,12 +1,16 @@
-﻿using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria;
-using Terraria.ModLoader;
-using ThisTianFaAndWuJingMod.Content.Item1;
-using Terraria.Localization;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria.UI.Chat;
+﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using ReLogic.Content;
+using System;
+using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.Localization;
+using Terraria.ModLoader;
+using Terraria.UI.Chat;
+using ThisTianFaAndWuJingMod.Content.Item1;
+using ThisTianFaAndWuJingMod.Core;
 
 namespace ThisTianFaAndWuJingMod.Content.Item2
 {
@@ -46,6 +50,8 @@ namespace ThisTianFaAndWuJingMod.Content.Item2
         }
         public static Color[] rainbowColors = [Color.Red, Color.Orange, Color.Yellow, Color.Green, Color.Blue, Color.Indigo, Color.Violet];
         private int fireIndex;
+        private float Charge;
+        private const float MaxCharge = 100;
         void ILoader.LoadData() {
             if (TFAWMod.Instance.ModHasSetVst) {
                 TFAWMod.Instance.CWRMod.Call(0, fullItems);
@@ -69,15 +75,31 @@ namespace ThisTianFaAndWuJingMod.Content.Item2
             Item.shoot = ModContent.ProjectileType<NemesisProj>();
             Item.shootSpeed = 18f;
             Item.SetKnifeHeld<EndlessHeld>();
-            fireIndex = 0;
+            Charge = fireIndex = 0;
             ItemID.Sets.ItemsThatAllowRepeatedRightClick[Type] = true;
             if (TFAWMod.Instance.ModHasSetVst) {
                 TFAWMod.Instance.CWRMod.Call(1, Item, fullItems);
+                Item.DamageType = TFAWMod.Instance.CWRMod.Find<DamageClass>("EndlessDamageClass");
             }
         }
 
         public override void ModifyWeaponCrit(Player player, ref float crit) {
             crit = 9999;
+        }
+
+        public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale) {
+            if (!(Charge <= 0f)) {//这是一个通用的进度条绘制，用于判断充能进度
+                Texture2D barBG = ModContent.Request<Texture2D>(EffectLoader.AssetPath + "GenericBarBack", (AssetRequestMode)2).Value;
+                Texture2D barFG = ModContent.Request<Texture2D>(EffectLoader.AssetPath + "GenericBarFront", (AssetRequestMode)2).Value;
+                float barScale = 5f;
+                Vector2 barOrigin = barBG.Size() * 0.5f;
+                float yOffset = 50f;
+                Vector2 drawPos = position + Vector2.UnitY * scale * (frame.Height - yOffset);
+                Rectangle frameCrop = new Rectangle(0, 0, (int)(Charge / MaxCharge * barFG.Width), barFG.Height);
+                Color color = Main.hslToRgb(Main.GlobalTimeWrappedHourly * 0.6f % 1f, 1f, 0.75f + (float)Math.Sin(Main.GlobalTimeWrappedHourly * 3f) * 0.1f);
+                spriteBatch.Draw(barBG, drawPos, null, color, 0f, barOrigin, scale * barScale, 0, 0f);
+                spriteBatch.Draw(barFG, drawPos, frameCrop, color * 0.8f, 0f, barOrigin, scale * barScale, 0, 0f);
+            }
         }
 
         public override bool PreDrawTooltipLine(DrawableTooltipLine line, ref int yOffset) {
@@ -102,6 +124,10 @@ namespace ThisTianFaAndWuJingMod.Content.Item2
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position
             , Vector2 velocity, int type, int damage, float knockback) {
+            Charge+= 5;
+            if (Charge > MaxCharge) {
+                Charge = MaxCharge;
+            }
             int newLevel = 0;
             if (++fireIndex > 6) {
                 newLevel = 1;
@@ -111,8 +137,10 @@ namespace ThisTianFaAndWuJingMod.Content.Item2
                 newLevel = 3;
             }
             KeyboardState state = Keyboard.GetState();
-            if (state.IsKeyDown(Keys.W)) {
+            if (state.IsKeyDown(Keys.W) && Charge >= MaxCharge) {
+                SoundEngine.PlaySound(new SoundStyle(EffectLoader.AssetPath + "Pecharge"), player.Center);
                 newLevel = 2;
+                Charge = 0;
             }
             Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, newLevel);
             return false;

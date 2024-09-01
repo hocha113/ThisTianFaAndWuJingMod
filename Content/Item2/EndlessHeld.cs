@@ -93,12 +93,18 @@ namespace ThisTianFaAndWuJingMod.Content.Item2
                 if (DownLeft && Time > 160) {
                     Projectile.ai[0] = 4;
                 }
+                if (Time > 0 && Time % 30 == 0 && Projectile.IsOwnedByLocalPlayer()) {
+                    Projectile.NewProjectile(Source, Projectile.Center, TFAWUtils.randVr(13, 16)
+                        , ModContent.ProjectileType<EndlessProj>()
+                            , (int)(Projectile.damage * 0.7f), 0, Owner.whoAmI);
+                }
                 return true;
             }
 
             if (Projectile.ai[0] == 0) {
                 SwingData.baseSwingSpeed = 4;
             }
+
             if (Projectile.ai[0] == 2) {
                 canSetOwnerArmBver = false;
                 OtherMeleeSize = 6;
@@ -110,7 +116,7 @@ namespace ThisTianFaAndWuJingMod.Content.Item2
                 BaseParticle particle = new PRT_Light(Owner.Center + new Vector2(0, -Length / 2), TFAWUtils.randVr(6, 116)
                         , Main.rand.NextFloat(0.3f, 0.7f), Main.DiscoColor, 22, 0.2f, _entity: Owner);
                 PRTLoader.AddParticle(particle); 
-                if (Time % 30 * updateCount == 0 && Time > 180) {
+                if (Time % 130 * updateCount == 0 && Time > 180) {
                     foreach (var npc in Main.ActiveNPCs) {
                         if (npc.friendly) {
                             continue;

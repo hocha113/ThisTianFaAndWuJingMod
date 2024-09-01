@@ -17,6 +17,7 @@ namespace ThisTianFaAndWuJingMod.Core
         public static Effect PowerSFShader;
         public static Effect KnifeRendering;
         public static Effect StarsTrail;
+
         public const string AssetPath = "ThisTianFaAndWuJingMod/Asset/";
         public const string AssetPath2 = "Asset/";
 

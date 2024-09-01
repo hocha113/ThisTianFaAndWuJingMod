@@ -19,6 +19,9 @@ namespace ThisTianFaAndWuJingMod.Content.Item2
             Projectile.timeLeft = 120;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
+            if (TFAWMod.Instance.ModHasSetVst) {
+                Projectile.DamageType = TFAWMod.Instance.CWRMod.Find<DamageClass>("EndlessDamageClass");
+            }
         }
 
         public override bool? CanHitNPC(NPC target) {

@@ -20,6 +20,7 @@ Items: {
 			Press and hold the right button to throw the weapon out and rotate it at the cursor
 			Press the left button again to sprint towards the weapon and release the dimensional slash
 			Press and hold the left or right button on W to attack and release annihilation
+			Holding the LeftShft left or right button will throw the blade
 			Eliminate full screen hostile creatures
 			"The origin and the ultimate of all things"
 			'''
@@ -37,4 +38,6 @@ Projectiles: {
 	EndlessProj.DisplayName: Endless Proj
 	EndlessChopping.DisplayName: Endless Chopping
 	SpwanTextProj.DisplayName: Spwan Text Proj
+	EndlessHeldAlt.DisplayName: Endless Held Alt
+	EXEndlessProj.DisplayName: E X Endless Proj
 }

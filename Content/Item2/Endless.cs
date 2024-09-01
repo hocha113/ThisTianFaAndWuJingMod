@@ -136,12 +136,25 @@ namespace ThisTianFaAndWuJingMod.Content.Item2
             if (player.altFunctionUse == 2) {
                 newLevel = 3;
             }
+
             KeyboardState state = Keyboard.GetState();
-            if (state.IsKeyDown(Keys.W) && Charge >= MaxCharge) {
-                SoundEngine.PlaySound(new SoundStyle(EffectLoader.AssetPath + "Pecharge"), player.Center);
-                newLevel = 2;
-                Charge = 0;
+
+            if (Charge >= MaxCharge) {
+                
+                if (state.IsKeyDown(Keys.W)) {
+                    SoundEngine.PlaySound(new SoundStyle(EffectLoader.AssetPath + "Pecharge"), player.Center);
+                    newLevel = 2;
+                    Charge = 0;
+                }
+                
             }
+            if (state.IsKeyDown(Keys.LeftShift)) {
+                SoundEngine.PlaySound(new SoundStyle(EffectLoader.AssetPath + "Pecharge"), player.Center);
+                Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<EndlessHeldAlt>(), damage, knockback, player.whoAmI, newLevel);
+                Charge = 0;
+                return false;
+            }
+
             Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, newLevel);
             return false;
         }

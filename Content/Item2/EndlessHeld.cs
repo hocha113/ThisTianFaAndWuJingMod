@@ -42,13 +42,15 @@ namespace ThisTianFaAndWuJingMod.Content.Item2
             }
             if (Projectile.ai[0] == 1) {
                 for (int i = 0; i < 33; i++) {
-                    Projectile.NewProjectile(Source, Owner.Center, (MathHelper.TwoPi / 33f * i).ToRotationVector2() * 3
+                    Projectile.NewProjectile(Source, Main.MouseWorld, (MathHelper.TwoPi / 33f * i).ToRotationVector2() * 3
                     , ModContent.ProjectileType<EndlessChopping>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0, i * 2);
                 }
                 return;
             }
-            Projectile.NewProjectile(Source, Main.MouseWorld, TFAWUtils.randVr(3, 6)
-                , ModContent.ProjectileType<EndlessChopping>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+            for (int i = 0; i < 3; i++) {
+                Projectile.NewProjectile(Source, Main.MouseWorld, TFAWUtils.randVr(3, 6)
+                , ModContent.ProjectileType<EndlessChopping>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0, Main.rand.Next(12));
+            }
         }
 
         public override bool PreInOwnerUpdate() {

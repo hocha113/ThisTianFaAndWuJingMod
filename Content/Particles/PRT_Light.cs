@@ -1,16 +1,13 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using InnoVault.PRT;
+using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using System;
 using Terraria;
-using ThisTianFaAndWuJingMod.Core;
 
 namespace ThisTianFaAndWuJingMod.Content.Particles
 {
-    internal class PRT_Light : BaseParticle, ILoader
+    internal class PRT_Light : BasePRT, ILoader
     {
-        public override bool UseAdditiveBlend => true;
-        public override bool UseCustomDraw => true;
-        public override bool SetLifetime => true;
         public float Opacity;
         public float SquishStrenght;
         public float MaxSquish;
@@ -36,6 +33,11 @@ namespace ThisTianFaAndWuJingMod.Content.Particles
             followingRateRatio = _followingRateRatio;
         }
 
+        public override void SetProperty() {
+            PRTDrawMode = PRTDrawModeEnum.AdditiveBlend;
+            SetLifetime = true;
+        }
+
         public override void AI() {
             Velocity *= LifetimeCompletion >= 0.34f ? 0.93f : 1.02f;
 
@@ -49,8 +51,8 @@ namespace ThisTianFaAndWuJingMod.Content.Particles
             }
         }
 
-        public override void CustomDraw(SpriteBatch spriteBatch) {
-            Texture2D tex = PRTLoader.ParticleIDToTexturesDic[Type];
+        public override bool PreDraw(SpriteBatch spriteBatch) {
+            Texture2D tex = PRTLoader.PRT_IDToTexture[ID];
             Texture2D bloomTex = BloomTex.Value;
 
             float squish = MathHelper.Clamp(Velocity.Length() / 10f * SquishStrenght, 1f, MaxSquish);
@@ -65,6 +67,7 @@ namespace ThisTianFaAndWuJingMod.Content.Particles
             Main.spriteBatch.Draw(bloomTex, drawPosition, null, Color * Opacity * 0.8f, rot, bloomTex.Size() / 2f, scale * 2 * properBloomSize, SpriteEffects.None, 0f);
             Main.spriteBatch.Draw(tex, drawPosition, null, Color * Opacity * 0.8f, rot, origin, scale * 1.1f, SpriteEffects.None, 0f);
             Main.spriteBatch.Draw(tex, drawPosition, null, Color.White * Opacity * 0.9f, rot, origin, scale, SpriteEffects.None, 0f);
+            return false;
         }
     }
 }

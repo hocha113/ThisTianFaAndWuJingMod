@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using InnoVault.PRT;
+using Terraria;
 using Terraria.ModLoader;
 using ThisTianFaAndWuJingMod.Content.Particles;
 using ThisTianFaAndWuJingMod.Core;
@@ -32,7 +33,7 @@ namespace ThisTianFaAndWuJingMod.Content.Item2
             }
             
             for (int i = 0; i < 9; i++) {
-                BaseParticle particle = new PRT_Light_SpecialColoring(
+                BasePRT particle = new PRT_Light(
                     Projectile.Center + Projectile.velocity.UnitVector() * i * 2, Vector2.Zero
                         , 0.1f, Color.BlueViolet, 26, 0.2f);
                 PRTLoader.AddParticle(particle);

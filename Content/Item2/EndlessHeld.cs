@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using InnoVault.PRT;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using Terraria;
@@ -66,7 +67,7 @@ namespace ThisTianFaAndWuJingMod.Content.Item2
                     Owner.TFAW().DontUseItemTime = 160;
 
                     for (int i = 0; i < 333; i++) {
-                        BaseParticle particle = new PRT_Light(Owner.Center, TFAWUtils.randVr(36, 116)
+                        BasePRT particle = new PRT_Light(Owner.Center, TFAWUtils.randVr(36, 116)
                         , Main.rand.NextFloat(0.3f, 0.7f), Main.DiscoColor, 12, 0.2f, _entity: Owner);
                         PRTLoader.AddParticle(particle);
                     }
@@ -115,7 +116,7 @@ namespace ThisTianFaAndWuJingMod.Content.Item2
                 SwingData.ler1_UpSizeSengs = 0;
                 SwingData.ler2_DownSpeedSengs = 0;
                 drawTrailBtommWidth += 0.01f;
-                BaseParticle particle = new PRT_Light(Owner.Center + new Vector2(0, -Length / 2), TFAWUtils.randVr(6, 116)
+                BasePRT particle = new PRT_Light(Owner.Center + new Vector2(0, -Length / 2), TFAWUtils.randVr(6, 116)
                         , Main.rand.NextFloat(0.3f, 0.7f), Main.DiscoColor, 22, 0.2f, _entity: Owner);
                 PRTLoader.AddParticle(particle); 
                 if (Time % 130 * updateCount == 0 && Time > 180) {

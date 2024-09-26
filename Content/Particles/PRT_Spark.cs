@@ -1,18 +1,15 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using InnoVault.PRT;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using ThisTianFaAndWuJingMod.Core;
 
 namespace ThisTianFaAndWuJingMod.Content.Particles
 {
-    internal class PRT_Spark : BaseParticle
+    internal class PRT_Spark : BasePRT
     {
         public Color InitialColor;
         public bool AffectedByGravity;
         public Entity entity;
-        public override bool SetLifetime => true;
-        public override bool UseCustomDraw => true;
-        public override bool UseAdditiveBlend => true;
 
         public PRT_Spark(Vector2 relativePosition, Vector2 velocity, bool affectedByGravity, int lifetime, float scale, Color color, Entity entity = null) {
             Position = relativePosition;
@@ -22,6 +19,11 @@ namespace ThisTianFaAndWuJingMod.Content.Particles
             Lifetime = lifetime;
             Color = InitialColor = color;
             this.entity = entity;
+        }
+
+        public override void SetProperty() {
+            PRTDrawMode = PRTDrawModeEnum.AdditiveBlend;
+            SetLifetime = true;
         }
 
         public override void AI() {
@@ -41,14 +43,16 @@ namespace ThisTianFaAndWuJingMod.Content.Particles
             }
         }
 
-        public override void CustomDraw(SpriteBatch spriteBatch) {
+        public override bool PreDraw(SpriteBatch spriteBatch) {
             Vector2 scale = new Vector2(0.5f, 1.6f) * Scale;
-            Texture2D texture = PRTLoader.ParticleIDToTexturesDic[Type];
+            Texture2D texture = PRTLoader.PRT_IDToTexture[ID];
 
             spriteBatch.Draw(texture, Position - Main.screenPosition, null, Color, Rotation
                 , texture.Size() * 0.5f, scale, 0, 0f);
             spriteBatch.Draw(texture, Position - Main.screenPosition, null, Color, Rotation
                 , texture.Size() * 0.5f, scale * new Vector2(0.45f, 1f), 0, 0f);
+
+            return false;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using InnoVault.PRT;
+using Terraria;
 using Terraria.ModLoader;
 using ThisTianFaAndWuJingMod.Content.Particles;
 using ThisTianFaAndWuJingMod.Core;
@@ -38,9 +39,9 @@ namespace ThisTianFaAndWuJingMod.Content.Item2
                 for (int i = 0; i < 133; i++) {
                     Vector2 ver = origVer.UnitVector() * ((i / 133f) * 133 + 0.1f);
                     Color color = Color.BlueViolet;
-                    BaseParticle spark = new PRT_Spark(Projectile.Center, -ver, false, 19, 2.3f, color);
+                    BasePRT spark = new PRT_Spark(Projectile.Center, -ver, false, 19, 2.3f, color);
                     PRTLoader.AddParticle(spark);
-                    BaseParticle spark2 = new PRT_Spark(Projectile.Center, ver, false, 19, 2.3f, color);
+                    BasePRT spark2 = new PRT_Spark(Projectile.Center, ver, false, 19, 2.3f, color);
                     PRTLoader.AddParticle(spark2);
                 }
                 set = true;

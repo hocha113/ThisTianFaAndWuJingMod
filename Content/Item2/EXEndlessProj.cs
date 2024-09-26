@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ModLoader;
 using ThisTianFaAndWuJingMod.Content.Particles;
 using ThisTianFaAndWuJingMod.Core;
+using InnoVault.PRT;
 
 namespace ThisTianFaAndWuJingMod.Content.Item2
 {
@@ -55,7 +56,7 @@ namespace ThisTianFaAndWuJingMod.Content.Item2
                 Projectile.velocity = origVer.UnitVector() * 32;
                 for (int i = 0; i < 6; i++) {
                     Vector2 ver = Projectile.velocity.GetNormalVector() * Main.rand.NextFloat(-116, 116);
-                    BaseParticle particle = new PRT_Light(Projectile.Center + Projectile.velocity * 10, ver
+                    BasePRT particle = new PRT_Light(Projectile.Center + Projectile.velocity * 10, ver
                         , Main.rand.NextFloat(1.3f, 1.7f), Main.DiscoColor, 32, 0.2f);
                     PRTLoader.AddParticle(particle);
                 }

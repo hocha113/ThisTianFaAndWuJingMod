@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using InnoVault.PRT;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.GameContent;
@@ -52,7 +53,7 @@ namespace ThisTianFaAndWuJingMod.Content.Item1
                 Projectile.velocity = origVer.UnitVector() * 32;
                 for (int i = 0; i < 6; i++) {
                     Vector2 ver = Projectile.velocity.GetNormalVector() * Main.rand.NextFloat(-116, 116);
-                    BaseParticle particle = new PRT_Light(Projectile.Center + Projectile.velocity * 10, ver
+                    BasePRT particle = new PRT_Light(Projectile.Center + Projectile.velocity * 10, ver
                         , Main.rand.NextFloat(1.3f, 1.7f), Color.OrangeRed, 32, 0.2f);
                     PRTLoader.AddParticle(particle);
                 }

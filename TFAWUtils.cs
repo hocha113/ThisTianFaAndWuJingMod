@@ -1104,13 +1104,13 @@ namespace ThisTianFaAndWuJingMod
         public static Item GetItem(this Player player) => Main.mouseItem.IsAir ? player.inventory[player.selectedItem] : Main.mouseItem;
 
         public static void SafeLoadItem(int id) {
-            if (id > 0 && id < TextureAssets.Item.Length && !Main.dedServ) {
+            if (id > 0 && id < TextureAssets.Item.Length && !Main.dedServ && Main.Assets != null && TextureAssets.Item[id] != null) {
                 Main.instance.LoadItem(id);
             }
         }
 
         public static void SafeLoadProj(int id) {
-            if (id > 0 && id < TextureAssets.Projectile.Length && !Main.dedServ) {
+            if (id > 0 && id < TextureAssets.Projectile.Length && !Main.dedServ && Main.Assets != null && TextureAssets.Projectile[id] != null) {
                 Main.instance.LoadProjectile(id);
             }
         }

@@ -21,7 +21,7 @@ namespace ThisTianFaAndWuJingMod.Content.Item1
             "ThisTianFaAndWuJingMod/Nemesis"
         ];
         public override void AddRecipes() {
-            if (TFAWMod.Instance.ModHasSetVst) {
+            if (TFAWMod.Instance.ModHasAddE) {
                 Recipe recipe = CreateRecipe().
                     AddIngredient(ModLoader.GetMod("CalamityMod").Find<ModItem>("TheBurningSky"), 1).
                     AddIngredient(ModLoader.GetMod("CalamityMod").Find<ModItem>("Earth"), 1).

@@ -10,6 +10,14 @@ namespace ThisTianFaAndWuJingMod
 	{
         public static TFAWMod Instance => (TFAWMod)ModLoader.GetMod("ThisTianFaAndWuJingMod");
         public Mod CWRMod;
+        public bool ModHasAddE {
+            get {
+                if (!ModHasSetVst) {
+                    return false;
+                }
+                return (bool)CWRMod.Call(4);
+            }
+        }
         public bool ModHasSetVst {
             get {
                 if (CWRMod == null) {

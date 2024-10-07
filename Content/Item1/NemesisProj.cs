@@ -28,7 +28,7 @@ namespace ThisTianFaAndWuJingMod.Content.Item1
             Player player = Main.player[Projectile.owner];
             Projectile.tileCollide = Projectile.position.Y > player.position.Y;
             Lighting.AddLight(Projectile.Center, Color.White.ToVector3());
-            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
             if (Projectile.ai[0] == 1 && Projectile.IsOwnedByLocalPlayer() && !canHeal
                 && Projectile.Center.Distance(player.Center) < Projectile.width) {
                 int num = Main.rand.Next(6, 20);

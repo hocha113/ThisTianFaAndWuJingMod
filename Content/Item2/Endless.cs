@@ -28,7 +28,7 @@ namespace ThisTianFaAndWuJingMod.Content.Item2
             "ThisTianFaAndWuJingMod/Endless"
         ];
         public override void AddRecipes() {
-            if (TFAWMod.Instance.ModHasSetVst) {
+            if (TFAWMod.Instance.ModHasAddE) {
                 Recipe recipe = CreateRecipe().
                     AddIngredient(TFAWMod.Instance.CWRMod.Find<ModItem>("DawnshatterAzure"), 1).
                     AddIngredient(TFAWMod.Instance.CWRMod.Find<ModItem>("NeutronGlaive"), 1).
@@ -140,19 +140,18 @@ namespace ThisTianFaAndWuJingMod.Content.Item2
             KeyboardState state = Keyboard.GetState();
 
             if (Charge >= MaxCharge) {
-                
-                if (state.IsKeyDown(Keys.W)) {
+                if (state.IsKeyDown(Keys.LeftShift)) {
+                    SoundEngine.PlaySound(new SoundStyle(EffectLoader.AssetPath + "Pecharge"), player.Center);
+                    Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<EndlessHeldAlt>(), damage, knockback, player.whoAmI, newLevel);
+                    Charge = 0;
+                    return false;
+                }
+                else if (state.IsKeyDown(Keys.W)) {
                     SoundEngine.PlaySound(new SoundStyle(EffectLoader.AssetPath + "Pecharge"), player.Center);
                     newLevel = 2;
                     Charge = 0;
                 }
                 
-            }
-            if (state.IsKeyDown(Keys.LeftShift)) {
-                SoundEngine.PlaySound(new SoundStyle(EffectLoader.AssetPath + "Pecharge"), player.Center);
-                Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<EndlessHeldAlt>(), damage, knockback, player.whoAmI, newLevel);
-                Charge = 0;
-                return false;
             }
 
             Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, newLevel);

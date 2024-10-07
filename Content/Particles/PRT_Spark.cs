@@ -10,7 +10,7 @@ namespace ThisTianFaAndWuJingMod.Content.Particles
         public Color InitialColor;
         public bool AffectedByGravity;
         public Entity entity;
-
+        public override int InGame_World_MaxCount => 4000;
         public PRT_Spark(Vector2 relativePosition, Vector2 velocity, bool affectedByGravity, int lifetime, float scale, Color color, Entity entity = null) {
             Position = relativePosition;
             Velocity = velocity;

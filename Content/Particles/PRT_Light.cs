@@ -14,6 +14,7 @@ namespace ThisTianFaAndWuJingMod.Content.Particles
         public float HueShift;
         public float followingRateRatio;
         public Entity entity;
+        public override int InGame_World_MaxCount => 14000;
         internal static Asset<Texture2D> BloomTex;
         void ILoader.LoadAsset() => BloomTex = TFAWUtils.GetT2DAsset("ThisTianFaAndWuJingMod/Content/Particles/PRT_Light2");
         void ILoader.UnLoadData() => BloomTex = null;

@@ -25,7 +25,6 @@
 	  <None Remove="Asset\ShaduraGradient.png" />
 	  <None Remove="Asset\StarsTrail.fx" />
 	  <None Remove="Asset\WarpShader.fx" />
-	  <None Remove="Content\Item1\ScarletDevilStreak.png" />
 	  <None Remove="Content\Particles\PRT_Light.png" />
 	  <None Remove="Content\Particles\PRT_Spark.png" />
 	  <None Remove="localization\zh-Hans_Mods.ThisTianFaAndWuJingMod.hjson" />

@@ -1,11 +1,14 @@
-﻿using InnoVault.PRT;
+﻿using InnoVault;
+using InnoVault.PRT;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ObjectData;
 using ThisTianFaAndWuJingMod.Content.Item1;
 using ThisTianFaAndWuJingMod.Content.Particles;
 using ThisTianFaAndWuJingMod.Core;
@@ -164,6 +167,9 @@ namespace ThisTianFaAndWuJingMod.Content.Item2
             npc.checkDead();
             npc.HitEffect();
             npc.NPCLoot();
+            if (npc.type == NPCID.TargetDummy) {
+                VaultUtils.KillPuppet(new Point16((int)(npc.Center.X / 16), (int)(npc.Center.Y / 16)));
+            }
             npc.netUpdate = true;
             npc.netUpdate2 = true;
             npc.active = false;

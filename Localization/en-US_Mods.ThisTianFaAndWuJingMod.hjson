@@ -19,9 +19,9 @@ Items: {
 			Release a spin slash every six times
 			Press and hold the right button to throw the weapon out and rotate it at the cursor
 			Press the left button again to sprint towards the weapon and release the dimensional slash
-			Press and hold the left or right button on W to attack and release annihilation
-			Holding the LeftShft left or right button will throw the blade
-			Eliminate full screen hostile creatures
+			Left-click attack will charge the weapon.
+			Holding down Q while left-clicking or right-clicking while fully charged will consume the charge to unleash the Annihilation, destroying all enemy creatures on the screen.
+			Holding down Left Shift while left-clicking or right-clicking while fully charged will consume the charge to throw out a blade.
 			"The origin and the ultimate of all things"
 			'''
 	}

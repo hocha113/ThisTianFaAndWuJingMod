@@ -146,7 +146,7 @@ namespace ThisTianFaAndWuJingMod.Content.Item2
                     Charge = 0;
                     return false;
                 }
-                else if (state.IsKeyDown(Keys.W)) {
+                else if (state.IsKeyDown(Keys.Q)) {
                     SoundEngine.PlaySound(new SoundStyle(EffectLoader.AssetPath + "Pecharge"), player.Center);
                     newLevel = 2;
                     Charge = 0;

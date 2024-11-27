@@ -23,9 +23,11 @@
 	  <None Remove="Asset\placeholder3.png" />
 	  <None Remove="Asset\PowerSFShader.fx" />
 	  <None Remove="Asset\ShaduraGradient.png" />
+	  <None Remove="Asset\StarrySky.png" />
 	  <None Remove="Asset\StarsTrail.fx" />
 	  <None Remove="Asset\WarpShader.fx" />
 	  <None Remove="Content\Particles\PRT_Light.png" />
+	  <None Remove="Content\Particles\PRT_RTSpark.png" />
 	  <None Remove="Content\Particles\PRT_Spark.png" />
 	  <None Remove="localization\zh-Hans_Mods.ThisTianFaAndWuJingMod.hjson" />
 	</ItemGroup>

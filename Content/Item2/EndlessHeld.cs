@@ -81,7 +81,7 @@ namespace ThisTianFaAndWuJingMod.Content.Item2
                     for (int i = 0; i < maxSpanNum; i++) {
                         Vector2 spanPos = Projectile.Center + TFAWUtils.randVr(1380, 2200);
                         Vector2 vr = spanPos.To(Projectile.Center + TFAWUtils.randVr(180, 320 + 3 * 12)).UnitVector() * 12;
-                        Projectile.NewProjectile(Owner.parent(), spanPos, vr, ModContent.ProjectileType<EndSkillOrbOnSpan>()
+                        Projectile.NewProjectile(Owner.FromObjectGetParent(), spanPos, vr, ModContent.ProjectileType<EndSkillOrbOnSpan>()
                             , (int)(Projectile.damage * 3.7f), 0, Owner.whoAmI);
                     }
                     Projectile.Kill();

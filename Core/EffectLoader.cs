@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using InnoVault.PRT;
+using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using System;
 using System.Collections.Generic;
@@ -6,8 +7,10 @@ using System.Reflection;
 using Terraria;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
+using Terraria.ID;
 using Terraria.ModLoader;
 using ThisTianFaAndWuJingMod.Content.Item1;
+using ThisTianFaAndWuJingMod.Content.Particles;
 
 namespace ThisTianFaAndWuJingMod.Core
 {
@@ -17,6 +20,7 @@ namespace ThisTianFaAndWuJingMod.Core
         public static Effect PowerSFShader;
         public static Effect KnifeRendering;
         public static Effect StarsTrail;
+        public static Effect RTShader;
 
         public const string AssetPath = "ThisTianFaAndWuJingMod/Asset/";
         public const string AssetPath2 = "Asset/";
@@ -46,6 +50,7 @@ namespace ThisTianFaAndWuJingMod.Core
             loadFiltersEffect("ThisTianFaAndWuJingMod:powerSFShader", "PowerSFShader", "PowerSFShaderPass", out PowerSFShader);
             loadFiltersEffect("ThisTianFaAndWuJingMod:KnifeRendering", "KnifeRendering", "KnifeRenderingPass", out KnifeRendering);
             loadFiltersEffect("ThisTianFaAndWuJingMod:StarsTrail", "StarsTrail", "StarsTrailPass", out StarsTrail);
+            loadFiltersEffect("ThisTianFaAndWuJingMod:RTShader", "RTShader", "Tentacle", out RTShader);
         }
 
         void ILoader.LoadData() {
@@ -178,6 +183,37 @@ namespace ThisTianFaAndWuJingMod.Core
                 Main.spriteBatch.Draw(Main.screenTargetSwap, Vector2.Zero, Color.White);
                 Main.spriteBatch.End();
             }
+
+            #region RT粒子特效
+            if (PRT_RTSpark.HasSet(out List<BasePRT> prts)) {
+                graphicsDevice.SetRenderTarget(Main.screenTargetSwap);
+                graphicsDevice.Clear(Color.Transparent);
+                Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
+                Main.spriteBatch.Draw(Main.screenTarget, Vector2.Zero, Color.White);
+                Main.spriteBatch.End();
+
+                graphicsDevice.SetRenderTarget(screen);
+                graphicsDevice.Clear(Color.Transparent);
+                Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+                PRT_RTSpark.DrawAll(Main.spriteBatch, prts);
+                Main.spriteBatch.End();
+
+                graphicsDevice.SetRenderTarget(Main.screenTarget);
+                graphicsDevice.Clear(Color.Transparent);
+                Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
+                Main.spriteBatch.Draw(Main.screenTargetSwap, Vector2.Zero, Color.White);
+                Main.spriteBatch.End();
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+                graphicsDevice.Textures[1] = ModContent.Request<Texture2D>("ThisTianFaAndWuJingMod/Asset/StarrySky").Value;
+                RTShader.CurrentTechnique.Passes[0].Apply();
+                RTShader.Parameters["m"].SetValue(0.08f);
+                RTShader.Parameters["n"].SetValue(0.01f);
+                RTShader.Parameters["OffsetX"].SetValue((float)((Main.GlobalTimeWrappedHourly) * 0.11f));
+                Main.spriteBatch.Draw(screen, Vector2.Zero, Color.White);
+                Main.spriteBatch.End();
+            }
+            
+            #endregion
 
             orig.Invoke(self, finalTexture, screenTarget1, screenTarget2, clearColor);
         }

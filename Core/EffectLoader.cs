@@ -10,6 +10,7 @@ using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 using ThisTianFaAndWuJingMod.Content.Item1;
+using ThisTianFaAndWuJingMod.Content.Item2;
 using ThisTianFaAndWuJingMod.Content.Particles;
 
 namespace ThisTianFaAndWuJingMod.Core
@@ -89,131 +90,161 @@ namespace ThisTianFaAndWuJingMod.Core
                 screen = new RenderTarget2D(graphicsDevice, Main.screenWidth, Main.screenHeight);
             }
 
-            if (HasWarpEffect(out List<IDrawWarp> warpSets, out List<IDrawWarp> warpSetsNoBlueshift)) {
-                if (warpSets.Count > 0) {
-                    //绘制屏幕
-                    graphicsDevice.SetRenderTarget(screen);
-                    graphicsDevice.Clear(Color.Transparent);
-                    Main.spriteBatch.Begin(0, BlendState.AlphaBlend);
+            if (!Main.gameMenu) {
+                if (HasWarpEffect(out List<IDrawWarp> warpSets, out List<IDrawWarp> warpSetsNoBlueshift)) {
+                    if (warpSets.Count > 0) {
+                        //绘制屏幕
+                        graphicsDevice.SetRenderTarget(screen);
+                        graphicsDevice.Clear(Color.Transparent);
+                        Main.spriteBatch.Begin(0, BlendState.AlphaBlend);
+                        Main.spriteBatch.Draw(Main.screenTarget, Vector2.Zero, Color.White);
+                        Main.spriteBatch.End();
+                        //绘制需要绘制的内容
+                        graphicsDevice.SetRenderTarget(Main.screenTargetSwap);
+                        graphicsDevice.Clear(Color.Transparent);
+
+                        Main.spriteBatch.Begin(0, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None
+                            , RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+                        foreach (IDrawWarp p in warpSets) { p.Warp(); }
+                        Main.spriteBatch.End();
+
+                        //应用扭曲
+                        graphicsDevice.SetRenderTarget(Main.screenTarget);
+                        graphicsDevice.Clear(Color.Transparent);
+                        Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+
+                        //如果想热加载，最好这样获取值
+                        Effect effect = TFAWMod.Instance.Assets.Request<Effect>(AssetPath2 + "WarpShader").Value;//EffectsRegistry.WarpShader;
+                        effect.Parameters["tex0"].SetValue(Main.screenTargetSwap);
+                        effect.Parameters["noBlueshift"].SetValue(false);//这个部分的绘制需要使用蓝移效果
+                        effect.Parameters["i"].SetValue(0.02f);
+                        effect.CurrentTechnique.Passes[0].Apply();
+                        Main.spriteBatch.Draw(screen, Vector2.Zero, Color.White);
+                        Main.spriteBatch.End();
+
+                        Main.spriteBatch.Begin(default, BlendState.AlphaBlend, Main.DefaultSamplerState
+                            , default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+                        foreach (IDrawWarp p in warpSets) { if (p.canDraw()) { p.costomDraw(Main.spriteBatch); } }
+                        Main.spriteBatch.End();
+                    }
+                    if (warpSetsNoBlueshift.Count > 0) {
+                        //绘制屏幕
+                        graphicsDevice.SetRenderTarget(screen);
+                        graphicsDevice.Clear(Color.Transparent);
+                        Main.spriteBatch.Begin(0, BlendState.AlphaBlend);
+                        Main.spriteBatch.Draw(Main.screenTarget, Vector2.Zero, Color.White);
+                        Main.spriteBatch.End();
+                        //绘制需要绘制的内容
+                        graphicsDevice.SetRenderTarget(Main.screenTargetSwap);
+                        graphicsDevice.Clear(Color.Transparent);
+
+                        Main.spriteBatch.Begin(0, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None
+                            , RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+                        foreach (IDrawWarp p in warpSetsNoBlueshift) { p.Warp(); }
+                        Main.spriteBatch.End();
+
+                        //应用扭曲
+                        graphicsDevice.SetRenderTarget(Main.screenTarget);
+                        graphicsDevice.Clear(Color.Transparent);
+                        Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+
+                        //如果想热加载，最好这样获取值
+                        Effect effect = TFAWMod.Instance.Assets.Request<Effect>(AssetPath2 + "WarpShader").Value;//EffectsRegistry.WarpShader;
+                        effect.Parameters["tex0"].SetValue(Main.screenTargetSwap);
+                        effect.Parameters["noBlueshift"].SetValue(true);//这个部分的绘制不需要使用蓝移效果
+                        effect.Parameters["i"].SetValue(0.02f);
+                        effect.CurrentTechnique.Passes[0].Apply();
+                        Main.spriteBatch.Draw(screen, Vector2.Zero, Color.White);
+                        Main.spriteBatch.End();
+
+                        Main.spriteBatch.Begin(default, BlendState.AlphaBlend, Main.DefaultSamplerState
+                            , default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+                        foreach (IDrawWarp p in warpSetsNoBlueshift) { if (p.canDraw()) { p.costomDraw(Main.spriteBatch); } }
+                        Main.spriteBatch.End();
+                    }
+                }
+
+                if (HasPwoerEffect()) {
+                    graphicsDevice.SetRenderTarget(Main.screenTargetSwap);
+                    graphicsDevice.Clear(Color.Transparent);//用透明清除
+                    Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
                     Main.spriteBatch.Draw(Main.screenTarget, Vector2.Zero, Color.White);
                     Main.spriteBatch.End();
-                    //绘制需要绘制的内容
-                    graphicsDevice.SetRenderTarget(Main.screenTargetSwap);
+                    graphicsDevice.SetRenderTarget(screen);
                     graphicsDevice.Clear(Color.Transparent);
-
-                    Main.spriteBatch.Begin(0, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None
-                        , RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
-                    foreach (IDrawWarp p in warpSets) { p.Warp(); }
+                    Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointWrap
+                        , DepthStencilState.None, RasterizerState.CullCounterClockwise, null, Main.Transform);
+                    DrawPwoerEffect(Main.spriteBatch);
                     Main.spriteBatch.End();
-
-                    //应用扭曲
                     graphicsDevice.SetRenderTarget(Main.screenTarget);
                     graphicsDevice.Clear(Color.Transparent);
                     Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-
-                    //如果想热加载，最好这样获取值
-                    Effect effect = TFAWMod.Instance.Assets.Request<Effect>(AssetPath2 + "WarpShader").Value;//EffectsRegistry.WarpShader;
-                    effect.Parameters["tex0"].SetValue(Main.screenTargetSwap);
-                    effect.Parameters["noBlueshift"].SetValue(false);//这个部分的绘制需要使用蓝移效果
-                    effect.Parameters["i"].SetValue(0.02f);
-                    effect.CurrentTechnique.Passes[0].Apply();
-                    Main.spriteBatch.Draw(screen, Vector2.Zero, Color.White);
-                    Main.spriteBatch.End();
-
-                    Main.spriteBatch.Begin(default, BlendState.AlphaBlend, Main.DefaultSamplerState
-                        , default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
-                    foreach (IDrawWarp p in warpSets) { if (p.canDraw()) { p.costomDraw(Main.spriteBatch); } }
+                    PowerSFShader.Parameters["tex0"].SetValue(screen);
+                    PowerSFShader.Parameters["i"].SetValue(twistStrength);
+                    PowerSFShader.CurrentTechnique.Passes[0].Apply();
+                    Main.spriteBatch.Draw(Main.screenTargetSwap, Vector2.Zero, Color.White);
                     Main.spriteBatch.End();
                 }
-                if (warpSetsNoBlueshift.Count > 0) {
-                    //绘制屏幕
-                    graphicsDevice.SetRenderTarget(screen);
-                    graphicsDevice.Clear(Color.Transparent);
-                    Main.spriteBatch.Begin(0, BlendState.AlphaBlend);
-                    Main.spriteBatch.Draw(Main.screenTarget, Vector2.Zero, Color.White);
-                    Main.spriteBatch.End();
-                    //绘制需要绘制的内容
+
+                #region RT粒子特效
+                if (PRT_RTSpark.HasSet(out List<BasePRT> prts)) {
                     graphicsDevice.SetRenderTarget(Main.screenTargetSwap);
                     graphicsDevice.Clear(Color.Transparent);
-
-                    Main.spriteBatch.Begin(0, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None
-                        , RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
-                    foreach (IDrawWarp p in warpSetsNoBlueshift) { p.Warp(); }
+                    Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
+                    Main.spriteBatch.Draw(Main.screenTarget, Vector2.Zero, Color.White);
                     Main.spriteBatch.End();
 
-                    //应用扭曲
+                    graphicsDevice.SetRenderTarget(screen);
+                    graphicsDevice.Clear(Color.Transparent);
+                    Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+                    PRT_RTSpark.DrawAll(Main.spriteBatch, prts);
+                    Main.spriteBatch.End();
+
                     graphicsDevice.SetRenderTarget(Main.screenTarget);
                     graphicsDevice.Clear(Color.Transparent);
+                    Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
+                    Main.spriteBatch.Draw(Main.screenTargetSwap, Vector2.Zero, Color.White);
+                    Main.spriteBatch.End();
                     Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-
-                    //如果想热加载，最好这样获取值
-                    Effect effect = TFAWMod.Instance.Assets.Request<Effect>(AssetPath2 + "WarpShader").Value;//EffectsRegistry.WarpShader;
-                    effect.Parameters["tex0"].SetValue(Main.screenTargetSwap);
-                    effect.Parameters["noBlueshift"].SetValue(true);//这个部分的绘制不需要使用蓝移效果
-                    effect.Parameters["i"].SetValue(0.02f);
-                    effect.CurrentTechnique.Passes[0].Apply();
+                    graphicsDevice.Textures[1] = EndlessHeld.Sky.Value;
+                    RTShader.CurrentTechnique.Passes[0].Apply();
+                    RTShader.Parameters["m"].SetValue(0.08f);
+                    RTShader.Parameters["n"].SetValue(0.01f);
+                    RTShader.Parameters["OffsetX"].SetValue((float)((Main.GlobalTimeWrappedHourly) * 0.11f));
                     Main.spriteBatch.Draw(screen, Vector2.Zero, Color.White);
                     Main.spriteBatch.End();
+                }
 
-                    Main.spriteBatch.Begin(default, BlendState.AlphaBlend, Main.DefaultSamplerState
-                        , default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
-                    foreach (IDrawWarp p in warpSetsNoBlueshift) { if (p.canDraw()) { p.costomDraw(Main.spriteBatch); } }
+                if (EndlessHeld.HasSet(out EndlessHeld endless) && endless.prtGroup != null) {
+                    graphicsDevice.SetRenderTarget(Main.screenTargetSwap);
+                    graphicsDevice.Clear(Color.Transparent);
+                    Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
+                    Main.spriteBatch.Draw(Main.screenTarget, Vector2.Zero, Color.White);
+                    Main.spriteBatch.End();
+
+                    graphicsDevice.SetRenderTarget(screen);
+                    graphicsDevice.Clear(Color.Transparent);
+                    Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+                    endless.prtGroup.Draw(Main.spriteBatch);
+                    Main.spriteBatch.End();
+
+                    graphicsDevice.SetRenderTarget(Main.screenTarget);
+                    graphicsDevice.Clear(Color.Transparent);
+                    Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
+                    Main.spriteBatch.Draw(Main.screenTargetSwap, Vector2.Zero, Color.White);
+                    Main.spriteBatch.End();
+                    Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+                    graphicsDevice.Textures[1] = EndlessHeld.Sky.Value;
+                    RTShader.CurrentTechnique.Passes[0].Apply();
+                    RTShader.Parameters["m"].SetValue(0.08f);
+                    RTShader.Parameters["n"].SetValue(0.01f);
+                    RTShader.Parameters["OffsetX"].SetValue((float)((Main.GlobalTimeWrappedHourly) * 0.11f));
+                    Main.spriteBatch.Draw(screen, Vector2.Zero, Color.White);
                     Main.spriteBatch.End();
                 }
+
+                #endregion
             }
-
-            if (HasPwoerEffect()) {
-                graphicsDevice.SetRenderTarget(Main.screenTargetSwap);
-                graphicsDevice.Clear(Color.Transparent);//用透明清除
-                Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
-                Main.spriteBatch.Draw(Main.screenTarget, Vector2.Zero, Color.White);
-                Main.spriteBatch.End();
-                graphicsDevice.SetRenderTarget(screen);
-                graphicsDevice.Clear(Color.Transparent);
-                Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointWrap
-                    , DepthStencilState.None, RasterizerState.CullCounterClockwise, null, Main.Transform);
-                DrawPwoerEffect(Main.spriteBatch);
-                Main.spriteBatch.End();
-                graphicsDevice.SetRenderTarget(Main.screenTarget);
-                graphicsDevice.Clear(Color.Transparent);
-                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-                PowerSFShader.Parameters["tex0"].SetValue(screen);
-                PowerSFShader.Parameters["i"].SetValue(twistStrength);
-                PowerSFShader.CurrentTechnique.Passes[0].Apply();
-                Main.spriteBatch.Draw(Main.screenTargetSwap, Vector2.Zero, Color.White);
-                Main.spriteBatch.End();
-            }
-
-            #region RT粒子特效
-            if (PRT_RTSpark.HasSet(out List<BasePRT> prts)) {
-                graphicsDevice.SetRenderTarget(Main.screenTargetSwap);
-                graphicsDevice.Clear(Color.Transparent);
-                Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
-                Main.spriteBatch.Draw(Main.screenTarget, Vector2.Zero, Color.White);
-                Main.spriteBatch.End();
-
-                graphicsDevice.SetRenderTarget(screen);
-                graphicsDevice.Clear(Color.Transparent);
-                Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
-                PRT_RTSpark.DrawAll(Main.spriteBatch, prts);
-                Main.spriteBatch.End();
-
-                graphicsDevice.SetRenderTarget(Main.screenTarget);
-                graphicsDevice.Clear(Color.Transparent);
-                Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
-                Main.spriteBatch.Draw(Main.screenTargetSwap, Vector2.Zero, Color.White);
-                Main.spriteBatch.End();
-                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-                graphicsDevice.Textures[1] = ModContent.Request<Texture2D>("ThisTianFaAndWuJingMod/Asset/StarrySky").Value;
-                RTShader.CurrentTechnique.Passes[0].Apply();
-                RTShader.Parameters["m"].SetValue(0.08f);
-                RTShader.Parameters["n"].SetValue(0.01f);
-                RTShader.Parameters["OffsetX"].SetValue((float)((Main.GlobalTimeWrappedHourly) * 0.11f));
-                Main.spriteBatch.Draw(screen, Vector2.Zero, Color.White);
-                Main.spriteBatch.End();
-            }
-            
-            #endregion
 
             orig.Invoke(self, finalTexture, screenTarget1, screenTarget2, clearColor);
         }

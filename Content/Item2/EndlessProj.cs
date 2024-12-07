@@ -33,10 +33,8 @@ namespace ThisTianFaAndWuJingMod.Content.Item2
             }
             
             for (int i = 0; i < 6; i++) {
-                BasePRT particle = new PRT_Light(
-                    Projectile.Center + Projectile.velocity.UnitVector() * i * 2, Vector2.Zero
-                        , 0.2f, Color.BlueViolet, 16, 0.2f);
-                PRTLoader.AddParticle(particle);
+                BasePRT spark = new PRT_RTSpark(Projectile.Center, Projectile.velocity, false, 19, 1.3f);
+                PRTLoader.AddParticle(spark);
             }
         }
     }

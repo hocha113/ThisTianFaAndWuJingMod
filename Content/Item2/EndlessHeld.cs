@@ -1,6 +1,7 @@
 ﻿using InnoVault;
 using InnoVault.PRT;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using System;
 using System.Collections.Generic;
 using Terraria;
@@ -8,19 +9,23 @@ using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ObjectData;
 using ThisTianFaAndWuJingMod.Content.Item1;
 using ThisTianFaAndWuJingMod.Content.Particles;
 using ThisTianFaAndWuJingMod.Core;
 
 namespace ThisTianFaAndWuJingMod.Content.Item2
 {
-    internal class EndlessHeld : BaseKnife
+    internal class EndlessHeld : BaseKnife, ILoader
     {
         public override int TargetID => ModContent.ItemType<Endless>();
         public override string trailTexturePath => EffectLoader.AssetPath + "MotionTrail4";
         public override string gradientTexturePath => EffectLoader.AssetPath + "ShaduraGradient";
+        internal PRTGroup prtGroup;
+        internal static Asset<Texture2D> Sky;
         Vector2 TargetPos;
+        int starTime;
+        void ILoader.LoadAsset() => Sky = TFAWUtils.GetT2DAsset("ThisTianFaAndWuJingMod/Asset/StarrySky");
+        void ILoader.UnLoadData() => Sky = null;
         public override void SetKnifeProperty() {
             Projectile.width = Projectile.height = 282;
             overOffsetCachesRoting = MathHelper.ToRadians(8);
@@ -99,6 +104,7 @@ namespace ThisTianFaAndWuJingMod.Content.Item2
                 if (DownLeft && Time > 160) {
                     Projectile.ai[0] = 4;
                 }
+                SpawnStarCalt();
                 if (Time > 0 && Time % 30 == 0 && Projectile.IsOwnedByLocalPlayer()) {
                     Projectile.NewProjectile(Source, Projectile.Center, TFAWUtils.randVr(13, 16)
                         , ModContent.ProjectileType<EndlessProj>()
@@ -135,6 +141,74 @@ namespace ThisTianFaAndWuJingMod.Content.Item2
                 }
             }
             return base.PreInOwnerUpdate();
+        }
+
+        internal static bool HasSet(out EndlessHeld endlessHeld) {
+            endlessHeld = null;
+            foreach (var proj in Main.ActiveProjectiles) {
+                if (proj.ai[0] != 3 || proj.ModProjectile == null) {
+                    continue;
+                }
+                if (proj.ModProjectile is EndlessHeld endless) {
+                    endlessHeld = endless;
+                }
+            }
+            return endlessHeld != null;
+        }
+
+        private void SpawnStarCalt() {
+            Vector2 startToEndVerData = Utils.SafeNormalize(Projectile.Center - Owner.Center, Vector2.Zero)
+                * MathHelper.Clamp((Projectile.Center - Owner.Center).Length(), 0, 2200);
+
+            prtGroup ??= new PRTGroup();
+
+            if (starTime % 30 == 0) {
+                prtGroup.Clear();
+                GenerateConstellationLines(startToEndVerData);
+            }
+
+            Vector2 moveDirection = (starTime > Projectile.oldPos.Length)
+                ? Projectile.position - Projectile.oldPos[0]
+                : Vector2.Zero;
+
+            prtGroup.Update();
+            starTime++;
+        }
+
+        private void GenerateConstellationLines(Vector2 startToEndVerData) {
+            float hue = Main.rand.NextFloat();
+            Vector2 previousStar = Owner.Center;
+
+            for (float i = Main.rand.NextFloat(0.2f, 0.5f); i < 1; i += Main.rand.NextFloat(0.2f, 0.5f)) {
+                Color color = GetNextHueColor(ref hue);
+                Vector2 offset = GenerateOffset(startToEndVerData);
+                AddLine(previousStar, Owner.Center + startToEndVerData * i + offset, 0.8f, color * 0.75f);
+
+                if (Main.rand.NextBool(3)) {
+                    color = GetNextHueColor(ref hue);
+                    offset = GenerateOffset(startToEndVerData);
+                    AddLine(previousStar, Owner.Center + startToEndVerData * i + offset, 0.1f, color);
+                }
+
+                previousStar = Owner.Center + startToEndVerData * i + offset;
+            }
+
+            Color finalColor = GetNextHueColor(ref hue);
+            AddLine(previousStar, Owner.Center + startToEndVerData, 0.1f, finalColor * 0.75f);
+        }
+
+        private Color GetNextHueColor(ref float hue) {
+            hue = (hue + 0.16f) % 1;
+            return Main.hslToRgb(hue, 1, 0.8f);
+        }
+
+        private Vector2 GenerateOffset(Vector2 startToEndVerData) {
+            return Main.rand.NextFloat(-50f, 50f) * Utils.SafeNormalize(startToEndVerData.RotatedBy(MathHelper.PiOver2), Vector2.Zero);
+        }
+
+        private void AddLine(Vector2 start, Vector2 end, float thickness, Color color) {
+            var line = new PRT_Line(start, end - start, thickness, color, 20);
+            prtGroup.Add(line);
         }
 
         public override Vector2 GetDrawTrailOrig() {
@@ -176,6 +250,11 @@ namespace ThisTianFaAndWuJingMod.Content.Item2
         }
 
         public override void DrawSwing(SpriteBatch spriteBatch, Color lightColor) {
+            if (prtGroup != null) {
+                spriteBatch.SetAdditiveState();
+                prtGroup.Draw(spriteBatch);
+                spriteBatch.ResetBlendState();
+            }
             if (Projectile.ai[0] == 2) {
                 Vector2 drawPos = Owner.Center - Main.screenPosition + new Vector2(0, -Length / 2);
                 float dort = -MathHelper.PiOver4;

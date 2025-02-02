@@ -1,6 +1,5 @@
 ﻿using Terraria;
 using Terraria.DataStructures;
-using Terraria.GameContent.Creative;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,12 +10,12 @@ namespace ThisTianFaAndWuJingMod.Content.Item1
         private int fireIndex;
         static string[] fullItems = ["0", "0", "0", "0", "0", "0", "0", "3458", "3458",
             "0", "0", "0", "0", "0", "0", "3458", "CalamityMod/TheBurningSky", "3458",
-            "0", "0", "0", "0", "0", "3458", "CalamityOverhaul/BlackMatterStick", "3458", "0",
-            "0", "0", "0", "0", "3458", "CalamityOverhaul/BlackMatterStick", "3458", "0", "0",
-            "0", "0", "0", "3458", "CalamityOverhaul/BlackMatterStick", "3458", "0", "0", "0",
-            "0", "0", "3458", "CalamityOverhaul/BlackMatterStick", "3458", "0", "0", "0", "0",
-            "3458", "3458", "CalamityOverhaul/BlackMatterStick", "3458", "0", "0", "0", "0", "0",
-            "3458", "CalamityOverhaul/BlackMatterStick", "3458", "0", "0", "0", "0", "0", "0",
+            "0", "0", "0", "0", "0", "3458", "CalamityOverhaul/NeutronStarIngot", "3458", "0",
+            "0", "0", "0", "0", "3458", "CalamityOverhaul/NeutronStarIngot", "3458", "0", "0",
+            "0", "0", "0", "3458", "CalamityOverhaul/NeutronStarIngot", "3458", "0", "0", "0",
+            "0", "0", "3458", "CalamityOverhaul/NeutronStarIngot", "3458", "0", "0", "0", "0",
+            "3458", "3458", "CalamityOverhaul/NeutronStarIngot", "3458", "0", "0", "0", "0", "0",
+            "3458", "CalamityOverhaul/NeutronStarIngot", "3458", "0", "0", "0", "0", "0", "0",
             "CalamityMod/Earth", "3458", "3458", "0", "0", "0", "0", "0", "0",
             "ThisTianFaAndWuJingMod/Nemesis"
         ];
@@ -25,7 +24,7 @@ namespace ThisTianFaAndWuJingMod.Content.Item1
                 Recipe recipe = CreateRecipe().
                     AddIngredient(ModLoader.GetMod("CalamityMod").Find<ModItem>("TheBurningSky"), 1).
                     AddIngredient(ModLoader.GetMod("CalamityMod").Find<ModItem>("Earth"), 1).
-                    AddIngredient(TFAWMod.Instance.CWRMod.Find<ModItem>("BlackMatterStick"), 6).
+                    AddIngredient(TFAWMod.Instance.CWRMod.Find<ModItem>("NeutronStarIngot"), 6).
                     AddIngredient(ItemID.FragmentSolar, 19).
                     AddTile(TFAWMod.Instance.CWRMod.Find<ModTile>("TransmutationOfMatter").Type);
                 ((Recipe)TFAWMod.Instance.CWRMod.Call(2, recipe)).Register();

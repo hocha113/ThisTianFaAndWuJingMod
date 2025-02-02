@@ -1,5 +1,5 @@
 displayName = Ultimate Infinite Star
-modReferences = InnoVault@1.4
-weakReferences = CalamityOverhaul@0.5016
+modReferences = InnoVault@1.7
+weakReferences = CalamityOverhaul@0.6011
 author = 锯角
-version = 1.61
+version = 1.71

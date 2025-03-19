@@ -1,9 +1,6 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using Mono.Cecil;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Terraria;
 using Terraria.Audio;
-using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 using ThisTianFaAndWuJingMod.Content.Item2;

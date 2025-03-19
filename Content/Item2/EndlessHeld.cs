@@ -70,7 +70,7 @@ namespace ThisTianFaAndWuJingMod.Content.Item2
 
             if (Projectile.ai[0] == 4) {
                 Owner.Center = Vector2.Lerp(Owner.Center, Projectile.Center, 0.1f);
-                
+
                 if (Owner.Distance(Projectile.Center) < 160) {
                     Owner.TFAW().DontUseItemTime = 160;
 
@@ -79,7 +79,7 @@ namespace ThisTianFaAndWuJingMod.Content.Item2
                         , Main.rand.NextFloat(0.3f, 0.7f), Main.DiscoColor, 12, 0.2f, _entity: Owner);
                         PRTLoader.AddParticle(particle);
                     }
-                    
+
                     SoundEngine.PlaySound(SoundID.Item69, Owner.position);
 
                     int maxSpanNum = 23;
@@ -127,7 +127,7 @@ namespace ThisTianFaAndWuJingMod.Content.Item2
                 drawTrailBtommWidth += 0.01f;
                 BasePRT particle = new PRT_Light(Owner.Center + new Vector2(0, -Length / 2), TFAWUtils.randVr(6, 116)
                         , Main.rand.NextFloat(0.3f, 0.7f), Main.DiscoColor, 22, 0.2f, _entity: Owner);
-                PRTLoader.AddParticle(particle); 
+                PRTLoader.AddParticle(particle);
                 if (Time % 130 * updateCount == 0 && Time > 180) {
                     foreach (var npc in Main.ActiveNPCs) {
                         if (npc.friendly) {
@@ -231,7 +231,7 @@ namespace ThisTianFaAndWuJingMod.Content.Item2
                     TargetPos = Vector2.Lerp(TargetPos, InMousePos, 0.04f);
                 }
                 Projectile.Center = TargetPos;
-            }  
+            }
         }
 
         static void killAction(NPC npc) {

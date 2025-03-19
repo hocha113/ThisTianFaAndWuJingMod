@@ -2,7 +2,6 @@
 using Terraria;
 using Terraria.ModLoader;
 using ThisTianFaAndWuJingMod.Content.Particles;
-using ThisTianFaAndWuJingMod.Core;
 
 namespace ThisTianFaAndWuJingMod.Content.Item2
 {
@@ -31,7 +30,7 @@ namespace ThisTianFaAndWuJingMod.Content.Item2
                     Projectile.ChasingBehavior2(targetNPC.Center, 1.001f, 0.2f);
                 }
             }
-            
+
             for (int i = 0; i < 6; i++) {
                 BasePRT spark = new PRT_RTSpark(Projectile.Center, Projectile.velocity, false, 19, 1.3f);
                 PRTLoader.AddParticle(spark);

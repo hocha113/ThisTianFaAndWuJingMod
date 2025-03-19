@@ -27,27 +27,6 @@ namespace ThisTianFaAndWuJingMod.Content.Item2
             "CalamityOverhaul/DawnshatterAzure", "CalamityOverhaul/InfiniteIngot", "0", "CalamityOverhaul/InfiniteIngot", "CalamityOverhaul/InfiniteIngot", "0", "0", "0", "0",
             "ThisTianFaAndWuJingMod/Endless"
         ];
-        public override void AddRecipes() {
-            if (TFAWMod.Instance.ModHasAddE) {
-                Recipe recipe = CreateRecipe().
-                    AddIngredient(TFAWMod.Instance.CWRMod.Find<ModItem>("DawnshatterAzure"), 1).
-                    AddIngredient(TFAWMod.Instance.CWRMod.Find<ModItem>("NeutronGlaive"), 1).
-                    AddIngredient(ItemID.Zenith, 1).
-                    AddIngredient(ModLoader.GetMod("CalamityMod").Find<ModItem>("ArkoftheCosmos"), 1).
-                    AddIngredient(ModLoader.GetMod("CalamityMod").Find<ModItem>("Murasama"), 1).
-                    AddIngredient(ModLoader.GetMod("CalamityMod").Find<ModItem>("IridescentExcalibur"), 1).
-                    AddIngredient(ModLoader.GetMod("CalamityMod").Find<ModItem>("Ataraxia"), 1).
-                    AddIngredient(ModLoader.GetMod("CalamityMod").Find<ModItem>("GaelsGreatsword"), 1).
-                    AddIngredient(ModLoader.GetMod("CalamityMod").Find<ModItem>("Exoblade"), 1).
-                    AddIngredient(TFAWMod.Instance.CWRMod.Find<ModItem>("InfiniteIngot"), 23).
-                    AddTile(TFAWMod.Instance.CWRMod.Find<ModTile>("TransmutationOfMatter").Type);
-                ((Recipe)TFAWMod.Instance.CWRMod.Call(2, recipe)).Register();
-                return;
-            }
-            CreateRecipe().
-                AddIngredient(ItemID.DirtBlock, 1).
-                Register();
-        }
         public static Color[] rainbowColors = [Color.Red, Color.Orange, Color.Yellow, Color.Green, Color.Blue, Color.Indigo, Color.Violet];
         private int fireIndex;
         private float Charge;
@@ -117,14 +96,14 @@ namespace ThisTianFaAndWuJingMod.Content.Item2
             ChatManager.DrawColorCodedStringWithShadow(sb, line.Font, line.Text, basePosition
                 , TFAWUtils.MultiStepColorLerp(Main.GameUpdateCount % 120 / 120f, rainbowColors)
                 , line.Rotation, line.Origin, line.BaseScale * 1.05f, line.MaxWidth, line.Spread);
-           
+
         }
 
         public override bool AltFunctionUse(Player player) => true;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position
             , Vector2 velocity, int type, int damage, float knockback) {
-            Charge+= 5;
+            Charge += 5;
             if (Charge > MaxCharge) {
                 Charge = MaxCharge;
             }
@@ -151,7 +130,7 @@ namespace ThisTianFaAndWuJingMod.Content.Item2
                     newLevel = 2;
                     Charge = 0;
                 }
-                
+
             }
 
             Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, newLevel);

@@ -1,12 +1,10 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using Terraria.Audio;
+﻿using InnoVault.PRT;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
-using Terraria;
 using Terraria.ModLoader;
 using ThisTianFaAndWuJingMod.Content.Particles;
-using ThisTianFaAndWuJingMod.Core;
-using InnoVault.PRT;
 
 namespace ThisTianFaAndWuJingMod.Content.Item2
 {

@@ -21,10 +21,7 @@ namespace ThisTianFaAndWuJingMod.Content.Particles
             this.entity = entity;
         }
 
-        public override void SetProperty() {
-            PRTDrawMode = PRTDrawModeEnum.AdditiveBlend;
-            SetLifetime = true;
-        }
+        public override void SetProperty() => PRTDrawMode = PRTDrawModeEnum.AdditiveBlend;
 
         public override void AI() {
             Scale *= 0.95f;

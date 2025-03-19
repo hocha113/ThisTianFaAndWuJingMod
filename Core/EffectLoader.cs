@@ -7,7 +7,6 @@ using System.Reflection;
 using Terraria;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
-using Terraria.ID;
 using Terraria.ModLoader;
 using ThisTianFaAndWuJingMod.Content.Item1;
 using ThisTianFaAndWuJingMod.Content.Item2;

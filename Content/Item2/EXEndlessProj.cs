@@ -1,13 +1,12 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using InnoVault.PRT;
+using Microsoft.Xna.Framework.Graphics;
 using System;
+using Terraria;
 using Terraria.GameContent;
 using Terraria.Graphics.CameraModifiers;
 using Terraria.ID;
-using Terraria;
 using Terraria.ModLoader;
 using ThisTianFaAndWuJingMod.Content.Particles;
-using ThisTianFaAndWuJingMod.Core;
-using InnoVault.PRT;
 
 namespace ThisTianFaAndWuJingMod.Content.Item2
 {

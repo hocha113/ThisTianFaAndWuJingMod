@@ -19,21 +19,6 @@ namespace ThisTianFaAndWuJingMod.Content.Item1
             "CalamityMod/Earth", "3458", "3458", "0", "0", "0", "0", "0", "0",
             "ThisTianFaAndWuJingMod/Nemesis"
         ];
-        public override void AddRecipes() {
-            if (TFAWMod.Instance.ModHasAddE) {
-                Recipe recipe = CreateRecipe().
-                    AddIngredient(ModLoader.GetMod("CalamityMod").Find<ModItem>("TheBurningSky"), 1).
-                    AddIngredient(ModLoader.GetMod("CalamityMod").Find<ModItem>("Earth"), 1).
-                    AddIngredient(TFAWMod.Instance.CWRMod.Find<ModItem>("NeutronStarIngot"), 6).
-                    AddIngredient(ItemID.FragmentSolar, 19).
-                    AddTile(TFAWMod.Instance.CWRMod.Find<ModTile>("TransmutationOfMatter").Type);
-                ((Recipe)TFAWMod.Instance.CWRMod.Call(2, recipe)).Register();
-                return;
-            }
-            CreateRecipe().
-                AddIngredient(ItemID.DirtBlock, 1).
-                Register();
-        }
         void ILoader.LoadData() {
             if (TFAWMod.Instance.ModHasSetVst) {
                 TFAWMod.Instance.CWRMod.Call(0, fullItems);

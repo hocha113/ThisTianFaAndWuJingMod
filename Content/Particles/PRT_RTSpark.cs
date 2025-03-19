@@ -1,9 +1,7 @@
 ﻿using InnoVault.PRT;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
 using Terraria;
-using Terraria.ModLoader;
 
 namespace ThisTianFaAndWuJingMod.Content.Particles
 {
@@ -20,8 +18,6 @@ namespace ThisTianFaAndWuJingMod.Content.Particles
             Lifetime = lifetime;
             this.entity = entity;
         }
-
-        public override void SetProperty() => SetLifetime = true;
 
         public override void AI() {
             Scale *= 0.95f;

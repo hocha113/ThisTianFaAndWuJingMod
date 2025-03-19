@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using Terraria;
-using Terraria.ModLoader;
 
 namespace ThisTianFaAndWuJingMod.Content.Particles
 {
@@ -23,10 +22,7 @@ namespace ThisTianFaAndWuJingMod.Content.Particles
             Rotation = 0;
         }
 
-        public override void SetProperty() {
-            PRTDrawMode = PRTDrawModeEnum.AdditiveBlend;
-            SetLifetime = true;
-        }
+        public override void SetProperty() => PRTDrawMode = PRTDrawModeEnum.AdditiveBlend;
 
         public override bool PreDraw(SpriteBatch spriteBatch) {
             float rot = LineSize.ToRotation() + MathHelper.PiOver2;

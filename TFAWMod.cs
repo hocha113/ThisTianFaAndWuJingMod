@@ -1,4 +1,4 @@
-global using Microsoft.Xna.Framework;
+﻿global using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using Terraria;
@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 namespace ThisTianFaAndWuJingMod
 {
     public class TFAWMod : Mod
-	{
+    {
         public static TFAWMod Instance => (TFAWMod)ModLoader.GetMod("ThisTianFaAndWuJingMod");
         public Mod CWRMod;
         public bool ModHasAddE {

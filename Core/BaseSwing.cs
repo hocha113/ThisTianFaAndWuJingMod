@@ -1,4 +1,5 @@
 ﻿using InnoVault;
+using InnoVault.GameContent.BaseEntity;
 using InnoVault.PRT;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
@@ -21,10 +22,6 @@ namespace ThisTianFaAndWuJingMod.Core
         private bool isInitialize;
         protected Vector2 vector;
         protected Vector2 startVector;
-        /// <summary>
-        /// 主纹理资源
-        /// </summary>
-        public virtual Texture2D TextureValue => TFAWUtils.GetT2DValue(Texture);
         /// <summary>
         /// 刀刃是否应该受近战缩放影响
         /// </summary>
@@ -65,10 +62,6 @@ namespace ThisTianFaAndWuJingMod.Core
         /// 最大动画帧数，默认为1
         /// </summary>
         public int AnimationMaxFrme = 1;
-        /// <summary>
-        /// 这个手持刀对应的物品实例
-        /// </summary>
-        public Item Item => Owner.GetItem();
         /// <summary>
         /// 挥舞索引
         /// </summary>
@@ -481,7 +474,6 @@ namespace ThisTianFaAndWuJingMod.Core
 
         public virtual bool PreInOwnerUpdate() { return true; }
         public virtual void PostInOwnerUpdate() { }
-        public virtual void Initialize() { }
         public virtual void UpdateFrame() {
             if (AnimationMaxFrme > 1) {
                 TFAWUtils.ClockFrame(ref Projectile.frame, CuttingFrmeInterval, AnimationMaxFrme - 1);

@@ -7,7 +7,6 @@ using Terraria.Graphics.CameraModifiers;
 using Terraria.ID;
 using Terraria.ModLoader;
 using ThisTianFaAndWuJingMod.Content.Particles;
-using ThisTianFaAndWuJingMod.Core;
 
 namespace ThisTianFaAndWuJingMod.Content.Item1
 {
@@ -84,7 +83,7 @@ namespace ThisTianFaAndWuJingMod.Content.Item1
             if (!isFs) {
                 rot += MathHelper.PiOver2;
             }
-            
+
             SpriteEffects spriteEffects = isFs ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 
             for (int k = 0; k < Projectile.oldPos.Length; k++) {
@@ -98,7 +97,7 @@ namespace ThisTianFaAndWuJingMod.Content.Item1
                 TFAWUtils.DrawMarginEffect(Main.spriteBatch, texture, Projectile.timeLeft, Projectile.Center - Main.screenPosition
                 , null, Color.Red, rot, drawOrigin, Projectile.scale, spriteEffects);
             }
-            
+
             Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, null, Color.White * newAlp
                 , rot, drawOrigin, Projectile.scale, spriteEffects, 0);
             return false;

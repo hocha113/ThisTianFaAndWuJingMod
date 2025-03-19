@@ -113,7 +113,7 @@ namespace ThisTianFaAndWuJingMod.Content.Item1
                     if (Time < 140 * updateCount) {
                         Projectile.Kill();
                     }
-                    
+
                     speed = MathHelper.ToRadians(SwingData.baseSwingSpeed) / SetSwingSpeed(1);
                     SwingData.baseSwingSpeed = 9;
                     SwingData.minClampLength = 160;
@@ -126,7 +126,7 @@ namespace ThisTianFaAndWuJingMod.Content.Item1
                 }
                 return true;
             }
-            
+
             if (Time == 10 * updateCount) {
                 canShoot = true;
             }

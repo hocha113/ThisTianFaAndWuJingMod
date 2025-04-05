@@ -24,6 +24,14 @@ namespace ThisTianFaAndWuJingMod.Content.Item1
                 TFAWMod.Instance.CWRMod.Call(0, fullItems);
             }
         }
+        public override void AddRecipes() {
+            if (!TFAWMod.Instance.ModHasAddE) {
+                return;
+            }
+            CreateRecipe().
+                AddIngredient(ItemID.DirtBlock, 1).
+                Register();
+        }
         public override void SetDefaults() {
             Item.height = 154;
             Item.width = 154;

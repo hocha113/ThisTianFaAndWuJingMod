@@ -2,4 +2,4 @@
 modReferences = InnoVault@1.9.6
 weakReferences = CalamityOverhaul@0.6061
 author = 锯角
-version = 1.72
+version = 1.73

@@ -1,0 +1,3 @@
+This module adds two terminal weapons,
+You can choose to play this module independently, but that only counts as a weapon experience
+This mod is open-source on[url=https://github.com/hocha113/ThisTianFaAndWuJingMod] GitHub [/url]

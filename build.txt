@@ -1,0 +1,6 @@
+﻿displayName = Ultimate Infinite Star
+modReferences = InnoVault
+weakReferences = CalamityOverhaul@0.6061
+author = 锯角
+version = 1.76
+includeSource = true

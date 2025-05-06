@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<!-- Import tModLoader mod properties -->
+	<Import Project="..\tModLoader.targets" />
+
+	<!-- General -->
+	<PropertyGroup>
+		
+	</PropertyGroup>
+	<ItemGroup>
+	  <AdditionalFiles Remove="description_workshop.txt" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Remove="Asset\GenericBarBack.png" />
+	  <None Remove="Asset\GenericBarFront.png" />
+	  <None Remove="Asset\KnifeRendering.fx" />
+	  <None Remove="Asset\MotionTrail2.png" />
+	  <None Remove="Asset\MotionTrail3.png" />
+	  <None Remove="Asset\MotionTrail4.png" />
+	  <None Remove="Asset\NullEffectColorBar.png" />
+	  <None Remove="Asset\placeholder.png" />
+	  <None Remove="Asset\placeholder2.png" />
+	  <None Remove="Asset\placeholder3.png" />
+	  <None Remove="Asset\PowerSFShader.fx" />
+	  <None Remove="Asset\ShaduraGradient.png" />
+	  <None Remove="Asset\StarrySky.png" />
+	  <None Remove="Asset\StarsTrail.fx" />
+	  <None Remove="Asset\WarpShader.fx" />
+	  <None Remove="Content\Particles\PRT_Light.png" />
+	  <None Remove="Content\Particles\PRT_Line.png" />
+	  <None Remove="Content\Particles\PRT_RTSpark.png" />
+	  <None Remove="Content\Particles\PRT_Spark.png" />
+	  <None Remove="localization\zh-Hans_Mods.ThisTianFaAndWuJingMod.hjson" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Reference Include="InnoVault">
+	    <HintPath>..\InnoVault\bin\Debug\net8.0\InnoVault.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
+
+	<!-- References -->
+
+</Project>

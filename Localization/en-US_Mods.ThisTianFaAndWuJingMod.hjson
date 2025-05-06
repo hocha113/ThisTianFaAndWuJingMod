@@ -1,0 +1,43 @@
+Items: {
+	Nemesis: {
+		DisplayName: Nemesis
+		Tooltip:
+			'''
+			Left click attack to summon a large number of dragon meteorites at the cursor
+			True melee will generate healing balls
+			Summon the Heavenly Punishment every six true melee battles
+			Press and hold the right button to store power
+			After fully charged, the rotating blade rapidly swings out a large number of cuts
+			'''
+	}
+
+	Endless: {
+		DisplayName: Ultimate Infinite Star
+		Tooltip:
+			'''
+			Left click to generate a slash at the cursor
+			Release a spin slash every six times
+			Press and hold the right button to throw the weapon out and rotate it at the cursor
+			Press the left button again to sprint towards the weapon and release the dimensional slash
+			Left-click attack will charge the weapon.
+			Holding down Q while left-clicking or right-clicking while fully charged will consume the charge to unleash the Annihilation, destroying all enemy creatures on the screen.
+			Holding down Left Shift while left-clicking or right-clicking while fully charged will consume the charge to throw out a blade.
+			"The origin and the ultimate of all things"
+			'''
+	}
+}
+
+Projectiles: {
+	EndSkillOrbOnSpan.DisplayName: End Skill Orb On Span
+	NemesisHeld.DisplayName: Nemesis Held
+	NemesisProj.DisplayName: Nemesis Proj
+	BaseKnife.DisplayName: Base Knife
+	EXNemesisProj.DisplayName: E X Nemesis Proj
+	NemesisAlt.DisplayName: Nemesis Alt
+	EndlessHeld.DisplayName: Endless Held
+	EndlessProj.DisplayName: Endless Proj
+	EndlessChopping.DisplayName: Endless Chopping
+	SpwanTextProj.DisplayName: Spwan Text Proj
+	EndlessHeldAlt.DisplayName: Endless Held Alt
+	EXEndlessProj.DisplayName: E X Endless Proj
+}

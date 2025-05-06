@@ -1,0 +1,43 @@
+Items: {
+	Nemesis: {
+		DisplayName: 天罚
+		Tooltip:
+			'''
+			左键攻击在光标处召唤大量龙陨星
+			真近战会产生治疗球
+			每六次真近战召唤一次天罚
+			按住右键进行蓄力
+			蓄力满后旋转刀刃急速挥出大量斩击
+			'''
+	}
+
+	Endless: {
+		DisplayName: 万象终极-无尽星空
+		Tooltip:
+			'''
+			左键在光标处产生斩击
+			每六次释放一次旋转斩击
+			按住右键将武器丢出在光标处旋转
+			按住右键再按左键向武器冲刺并释放次元斩击
+			左键攻击将为武器充能
+			充能满后按住Q左键或右键攻击将消耗充能释放湮灭消灭全屏敌对生物
+			充能满后按住LeftShft左键或右键攻击将消耗充能投掷出刀刃
+			“一切万物的起源亦是终极”
+			'''
+	}
+}
+
+Projectiles: {
+	// EndSkillOrbOnSpan.DisplayName: End Skill Orb On Span
+	// NemesisHeld.DisplayName: Nemesis Held
+	// NemesisProj.DisplayName: Nemesis Proj
+	// BaseKnife.DisplayName: Base Knife
+	// EXNemesisProj.DisplayName: E X Nemesis Proj
+	// NemesisAlt.DisplayName: Nemesis Alt
+	// EndlessHeld.DisplayName: Endless Held
+	// EndlessProj.DisplayName: Endless Proj
+	// EndlessChopping.DisplayName: Endless Chopping
+	// SpwanTextProj.DisplayName: Spwan Text Proj
+	// EndlessHeldAlt.DisplayName: Endless Held Alt
+	// EXEndlessProj.DisplayName: E X Endless Proj
+}

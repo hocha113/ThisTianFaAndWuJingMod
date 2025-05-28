@@ -10,12 +10,12 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.UI.Chat;
-using ThisTianFaAndWuJingMod.Content.Item1;
+using ThisTianFaAndWuJingMod.Content.Nemesies;
 using ThisTianFaAndWuJingMod.Core;
 
-namespace ThisTianFaAndWuJingMod.Content.Item2
+namespace ThisTianFaAndWuJingMod.Content.Endleses
 {
-    internal class Endless : ModItem, ILoader
+    internal class Endless : ModItem, ITFAWLoader
     {
         static string[] fullItems = ["0", "0", "0", "0", "0", "0", "0", "CalamityOverhaul/InfiniteIngot", "CalamityOverhaul/InfiniteIngot",
             "0", "0", "0", "0", "0", "0", "CalamityOverhaul/InfiniteIngot", "CalamityOverhaul/NeutronGlaive", "CalamityOverhaul/InfiniteIngot",
@@ -32,7 +32,7 @@ namespace ThisTianFaAndWuJingMod.Content.Item2
         private int fireIndex;
         private float Charge;
         private const float MaxCharge = 100;
-        void ILoader.LoadData() {
+        void ITFAWLoader.LoadData() {
             if (TFAWMod.Instance.ModHasSetVst) {
                 TFAWMod.Instance.CWRMod.Call(0, fullItems);
             }

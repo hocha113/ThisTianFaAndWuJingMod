@@ -1,16 +1,16 @@
-﻿using InnoVault.PRT;
+﻿using InnoVault;
+using InnoVault.PRT;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using Terraria;
 
 namespace ThisTianFaAndWuJingMod.Content.Particles
 {
-    internal class PRT_Line : BasePRT, ILoader
+    internal class PRT_Line : BasePRT
     {
         public Vector2 LineSize;
+        [VaultLoaden("ThisTianFaAndWuJingMod/Content/Particles/PRT_RTSpark")]
         private static Asset<Texture2D> PRT_LineCap;
-        void ILoader.LoadAsset() => PRT_LineCap = TFAWUtils.GetT2DAsset("ThisTianFaAndWuJingMod/Content/Particles/PRT_RTSpark");
-        void ILoader.UnLoadData() => PRT_LineCap = null;
         public PRT_Line(Vector2 position, Vector2 lineSize, float scale, Color color, int lifetime) {
             Position = position;
             LineSize = lineSize;

@@ -2,5 +2,5 @@
 modReferences = InnoVault
 weakReferences = CalamityOverhaul@0.6061
 author = 锯角
-version = 1.76
+version = 1.77
 includeSource = true

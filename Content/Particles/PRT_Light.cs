@@ -1,4 +1,5 @@
-﻿using InnoVault.PRT;
+﻿using InnoVault;
+using InnoVault.PRT;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using System;
@@ -6,7 +7,7 @@ using Terraria;
 
 namespace ThisTianFaAndWuJingMod.Content.Particles
 {
-    internal class PRT_Light : BasePRT, ILoader
+    internal class PRT_Light : BasePRT
     {
         public float SquishStrenght;
         public float MaxSquish;
@@ -14,9 +15,8 @@ namespace ThisTianFaAndWuJingMod.Content.Particles
         public float followingRateRatio;
         public Entity entity;
         public override int InGame_World_MaxCount => 14000;
+        [VaultLoaden("ThisTianFaAndWuJingMod/Content/Particles/PRT_Light2")]
         internal static Asset<Texture2D> BloomTex;
-        void ILoader.LoadAsset() => BloomTex = TFAWUtils.GetT2DAsset("ThisTianFaAndWuJingMod/Content/Particles/PRT_Light2");
-        void ILoader.UnLoadData() => BloomTex = null;
         public PRT_Light(Vector2 position, Vector2 velocity, float scale, Color color, int lifetime, float opacity = 1f
             , float squishStrenght = 1f, float maxSquish = 3f, float hueShift = 0f, Entity _entity = null, float _followingRateRatio = 0.9f) {
             Position = position;

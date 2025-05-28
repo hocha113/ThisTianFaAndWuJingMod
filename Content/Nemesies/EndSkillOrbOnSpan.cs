@@ -4,10 +4,10 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using ThisTianFaAndWuJingMod.Content.Item2;
+using ThisTianFaAndWuJingMod.Content.Endleses;
 using ThisTianFaAndWuJingMod.Core;
 
-namespace ThisTianFaAndWuJingMod.Content.Item1
+namespace ThisTianFaAndWuJingMod.Content.Nemesies
 {
     internal class EndSkillOrbOnSpan : ModProjectile
     {

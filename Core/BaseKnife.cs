@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using InnoVault;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
@@ -28,7 +29,7 @@ namespace ThisTianFaAndWuJingMod.Core
             Projectile.localNPCHitCooldown = 10 * updateCount;
             Projectile.DamageType = DamageClass.Melee;
             SetKnifeProperty();
-            TFAWUtils.SafeLoadItem(TargetID);
+            VaultUtils.SafeLoadItem(TargetID);
         }
 
         protected void updaTrailTexture() => SwingSystem.trailTextures[Type] = TFAWUtils.GetT2DAsset(trailTexturePath);

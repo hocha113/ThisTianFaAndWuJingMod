@@ -27,19 +27,18 @@ namespace ThisTianFaAndWuJingMod
                 return CWRMod.Version >= new Version(0, 4046);
             }
         }
-        internal static List<ILoader> ILoaders { get; private set; }
+        internal static List<ITFAWLoader> ILoaders { get; private set; }
         public override void Load() {
             CWRMod = null;
             ModLoader.TryGetMod("CalamityOverhaul", out CWRMod);
-            ILoaders = VaultUtils.GetSubInterface<ILoader>();
-            foreach (ILoader setup in ILoaders) {
+            ILoaders = VaultUtils.GetSubInterface<ITFAWLoader>();
+            foreach (ITFAWLoader setup in ILoaders) {
                 setup.LoadData();
-                setup.DompLoadText();
             }
         }
 
         public override void PostSetupContent() {
-            foreach (ILoader setup in ILoaders) {
+            foreach (ITFAWLoader setup in ILoaders) {
                 setup.SetupData();
                 if (!Main.dedServ) {
                     setup.LoadAsset();
@@ -48,9 +47,8 @@ namespace ThisTianFaAndWuJingMod
         }
 
         public override void Unload() {
-            foreach (ILoader setup in ILoaders) {
+            foreach (ITFAWLoader setup in ILoaders) {
                 setup.UnLoadData();
-                setup.DompUnLoadText();
             }
             ILoaders = null;
         }

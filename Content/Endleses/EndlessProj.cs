@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ModLoader;
 using ThisTianFaAndWuJingMod.Content.Particles;
 
-namespace ThisTianFaAndWuJingMod.Content.Item2
+namespace ThisTianFaAndWuJingMod.Content.Endleses
 {
     internal class EndlessProj : ModProjectile
     {

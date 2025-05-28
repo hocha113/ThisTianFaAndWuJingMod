@@ -1,10 +1,11 @@
-﻿using InnoVault.PRT;
+﻿using InnoVault;
+using InnoVault.PRT;
 using Terraria;
 using Terraria.ModLoader;
 using ThisTianFaAndWuJingMod.Content.Particles;
 using ThisTianFaAndWuJingMod.Core;
 
-namespace ThisTianFaAndWuJingMod.Content.Item2
+namespace ThisTianFaAndWuJingMod.Content.Endleses
 {
     internal class EndlessChopping : ModProjectile
     {
@@ -37,7 +38,7 @@ namespace ThisTianFaAndWuJingMod.Content.Item2
                 origVer = Projectile.velocity;
                 Projectile.velocity = Vector2.Zero;
                 for (int i = 0; i < 133; i++) {
-                    Vector2 ver = origVer.UnitVector() * ((i / 133f) * 133 + 0.1f);
+                    Vector2 ver = origVer.UnitVector() * (i / 133f * 133 + 0.1f);
                     BasePRT spark = new PRT_RTSpark(Projectile.Center, -ver, false, 19, 2.3f);
                     PRTLoader.AddParticle(spark);
                     BasePRT spark2 = new PRT_RTSpark(Projectile.Center, ver, false, 19, 2.3f);

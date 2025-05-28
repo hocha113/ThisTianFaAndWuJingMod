@@ -9,11 +9,11 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using ThisTianFaAndWuJingMod.Content.Particles;
 
-namespace ThisTianFaAndWuJingMod.Content.Item2
+namespace ThisTianFaAndWuJingMod.Content.Nemesies
 {
-    internal class EXEndlessProj : ModProjectile
+    internal class EXNemesisProj : ModProjectile
     {
-        public override string Texture => "ThisTianFaAndWuJingMod/Content/Item2/Endless";
+        public override string Texture => "ThisTianFaAndWuJingMod/Content/Item1/Nemesis";
         bool isFs;
         int alp;
         Vector2 origVer;
@@ -30,9 +30,6 @@ namespace ThisTianFaAndWuJingMod.Content.Item2
             Projectile.tileCollide = false;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
-            if (TFAWMod.Instance.ModHasSetVst) {
-                Projectile.DamageType = TFAWMod.Instance.CWRMod.Find<DamageClass>("EndlessDamageClass");
-            }
             alp = 0;
         }
 
@@ -57,7 +54,7 @@ namespace ThisTianFaAndWuJingMod.Content.Item2
                 for (int i = 0; i < 6; i++) {
                     Vector2 ver = Projectile.velocity.GetNormalVector() * Main.rand.NextFloat(-116, 116);
                     BasePRT particle = new PRT_Light(Projectile.Center + Projectile.velocity * 10, ver
-                        , Main.rand.NextFloat(1.3f, 1.7f), Main.DiscoColor, 32, 0.2f);
+                        , Main.rand.NextFloat(1.3f, 1.7f), Color.OrangeRed, 32, 0.2f);
                     PRTLoader.AddParticle(particle);
                 }
                 PunchCameraModifier modifier = new PunchCameraModifier(Projectile.Center
@@ -72,6 +69,10 @@ namespace ThisTianFaAndWuJingMod.Content.Item2
             }
 
             Projectile.ai[0]++;
+        }
+
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone) {
+            target.AddBuff(BuffID.OnFire3, 600);
         }
 
         public override bool PreDraw(ref Color lightColor) {

@@ -6,21 +6,21 @@ using Terraria.ModLoader;
 
 namespace ThisTianFaAndWuJingMod.Core
 {
-    internal class SwingSystem : ILoader
+    internal class SwingSystem : ITFAWLoader
     {
         internal static List<BaseSwing> Swings;
         internal static Dictionary<string, int> SwingFullNameToType;
         internal static Dictionary<int, Asset<Texture2D>> trailTextures;
         internal static Dictionary<int, Asset<Texture2D>> gradientTextures;
         internal static Dictionary<int, Asset<Texture2D>> glowTextures;
-        void ILoader.LoadData() {
+        void ITFAWLoader.LoadData() {
             Swings = [];
             SwingFullNameToType = [];
             trailTextures = [];
             gradientTextures = [];
             glowTextures = [];
         }
-        void ILoader.SetupData() {
+        void ITFAWLoader.SetupData() {
             Swings = VaultUtils.GetSubclassInstances<BaseSwing>();
             foreach (var swing in Swings) {
                 string pathValue = swing.GetType().Name;
@@ -28,7 +28,7 @@ namespace ThisTianFaAndWuJingMod.Core
                 SwingFullNameToType.Add(pathValue, type);
             }
         }
-        void ILoader.LoadAsset() {
+        void ITFAWLoader.LoadAsset() {
             foreach (var swing in Swings) {
                 string path1 = swing.trailTexturePath;
                 string path2 = swing.gradientTexturePath;
@@ -51,7 +51,7 @@ namespace ThisTianFaAndWuJingMod.Core
                 }
             }
         }
-        void ILoader.UnLoadData() {
+        void ITFAWLoader.UnLoadData() {
             Swings = null;
             SwingFullNameToType = null;
             trailTextures = null;

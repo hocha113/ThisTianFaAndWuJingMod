@@ -3,9 +3,9 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace ThisTianFaAndWuJingMod.Content.Item1
+namespace ThisTianFaAndWuJingMod.Content.Nemesies
 {
-    internal class Nemesis : ModItem, ILoader
+    internal class Nemesis : ModItem, ITFAWLoader
     {
         private int fireIndex;
         static string[] fullItems = ["0", "0", "0", "0", "0", "0", "0", "3458", "3458",
@@ -19,7 +19,7 @@ namespace ThisTianFaAndWuJingMod.Content.Item1
             "CalamityMod/Earth", "3458", "3458", "0", "0", "0", "0", "0", "0",
             "ThisTianFaAndWuJingMod/Nemesis"
         ];
-        void ILoader.LoadData() {
+        void ITFAWLoader.LoadData() {
             if (TFAWMod.Instance.ModHasSetVst) {
                 TFAWMod.Instance.CWRMod.Call(0, fullItems);
             }

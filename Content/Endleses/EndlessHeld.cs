@@ -9,13 +9,13 @@ using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using ThisTianFaAndWuJingMod.Content.Item1;
+using ThisTianFaAndWuJingMod.Content.Nemesies;
 using ThisTianFaAndWuJingMod.Content.Particles;
 using ThisTianFaAndWuJingMod.Core;
 
-namespace ThisTianFaAndWuJingMod.Content.Item2
+namespace ThisTianFaAndWuJingMod.Content.Endleses
 {
-    internal class EndlessHeld : BaseKnife, ILoader
+    internal class EndlessHeld : BaseKnife, ITFAWLoader
     {
         public override int TargetID => ModContent.ItemType<Endless>();
         public override string trailTexturePath => EffectLoader.AssetPath + "MotionTrail4";
@@ -24,8 +24,8 @@ namespace ThisTianFaAndWuJingMod.Content.Item2
         internal static Asset<Texture2D> Sky;
         Vector2 TargetPos;
         int starTime;
-        void ILoader.LoadAsset() => Sky = TFAWUtils.GetT2DAsset("ThisTianFaAndWuJingMod/Asset/StarrySky");
-        void ILoader.UnLoadData() => Sky = null;
+        void ITFAWLoader.LoadAsset() => Sky = TFAWUtils.GetT2DAsset("ThisTianFaAndWuJingMod/Asset/StarrySky");
+        void ITFAWLoader.UnLoadData() => Sky = null;
         public override void SetKnifeProperty() {
             Projectile.width = Projectile.height = 282;
             overOffsetCachesRoting = MathHelper.ToRadians(8);
@@ -157,7 +157,7 @@ namespace ThisTianFaAndWuJingMod.Content.Item2
         }
 
         private void SpawnStarCalt() {
-            Vector2 startToEndVerData = Utils.SafeNormalize(Projectile.Center - Owner.Center, Vector2.Zero)
+            Vector2 startToEndVerData = (Projectile.Center - Owner.Center).SafeNormalize(Vector2.Zero)
                 * MathHelper.Clamp((Projectile.Center - Owner.Center).Length(), 0, 2200);
 
             prtGroup ??= new PRTGroup();
@@ -167,7 +167,7 @@ namespace ThisTianFaAndWuJingMod.Content.Item2
                 GenerateConstellationLines(startToEndVerData);
             }
 
-            Vector2 moveDirection = (starTime > Projectile.oldPos.Length)
+            Vector2 moveDirection = starTime > Projectile.oldPos.Length
                 ? Projectile.position - Projectile.oldPos[0]
                 : Vector2.Zero;
 
@@ -203,7 +203,7 @@ namespace ThisTianFaAndWuJingMod.Content.Item2
         }
 
         private Vector2 GenerateOffset(Vector2 startToEndVerData) {
-            return Main.rand.NextFloat(-50f, 50f) * Utils.SafeNormalize(startToEndVerData.RotatedBy(MathHelper.PiOver2), Vector2.Zero);
+            return Main.rand.NextFloat(-50f, 50f) * startToEndVerData.RotatedBy(MathHelper.PiOver2).SafeNormalize(Vector2.Zero);
         }
 
         private void AddLine(Vector2 start, Vector2 end, float thickness, Color color) {

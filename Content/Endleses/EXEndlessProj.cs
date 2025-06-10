@@ -13,7 +13,7 @@ namespace ThisTianFaAndWuJingMod.Content.Endleses
 {
     internal class EXEndlessProj : ModProjectile
     {
-        public override string Texture => "ThisTianFaAndWuJingMod/Content/Item2/Endless";
+        public override string Texture => "ThisTianFaAndWuJingMod/Content/Endleses/Endless";
         bool isFs;
         int alp;
         Vector2 origVer;

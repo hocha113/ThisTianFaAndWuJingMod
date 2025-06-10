@@ -13,7 +13,7 @@ namespace ThisTianFaAndWuJingMod.Content.Nemesies
 {
     internal class EXNemesisProj : ModProjectile
     {
-        public override string Texture => "ThisTianFaAndWuJingMod/Content/Item1/Nemesis";
+        public override string Texture => "ThisTianFaAndWuJingMod/Content/Nemesies/Nemesis";
         bool isFs;
         int alp;
         Vector2 origVer;

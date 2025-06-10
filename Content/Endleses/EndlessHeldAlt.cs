@@ -11,7 +11,7 @@ namespace ThisTianFaAndWuJingMod.Content.Endleses
 {
     internal class EndlessHeldAlt : ModProjectile
     {
-        public override string Texture => "ThisTianFaAndWuJingMod/Content/Item2/Endless";
+        public override string Texture => "ThisTianFaAndWuJingMod/Content/Endleses/Endless";
         public override void SetDefaults() {
             Projectile.width = Projectile.height = 254;
             Projectile.timeLeft = 180;

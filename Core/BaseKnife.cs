@@ -13,7 +13,6 @@ namespace ThisTianFaAndWuJingMod.Core
         public override Texture2D TextureValue => TargetID == ItemID.None ? TFAWUtils.GetT2DValue(Texture) : TextureAssets.Item[TargetID].Value;
         public SwingDataStruct SwingData = new SwingDataStruct();
         public SwingAITypeEnum SwingAIType;
-        protected bool autoSetShoot;
         protected float inWormBodysDamageFaul = 0.85f;
         public enum SwingAITypeEnum
         {
@@ -41,9 +40,6 @@ namespace ThisTianFaAndWuJingMod.Core
             maxSwingTime = Item.useTime;
             SwingData.maxSwingTime = maxSwingTime;
             toProjCoreMode = (IgnoreImpactBoxSize ? 22 : Projectile.width) / 2f;
-            if (autoSetShoot) {
-                ShootSpeed = Item.shootSpeed;
-            }
             if (++SwingIndex > 1) {
                 SwingIndex = 0;
             }

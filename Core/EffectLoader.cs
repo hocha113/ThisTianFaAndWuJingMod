@@ -1,10 +1,10 @@
 ﻿using InnoVault;
 using InnoVault.PRT;
+using InnoVault.RenderHandles;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using Terraria;
-using Terraria.Graphics.Effects;
 using Terraria.ModLoader;
 using ThisTianFaAndWuJingMod.Content.Endleses;
 using ThisTianFaAndWuJingMod.Content.Nemesies;
@@ -13,52 +13,20 @@ using ThisTianFaAndWuJingMod.Content.Particles;
 namespace ThisTianFaAndWuJingMod.Core
 {
     [VaultLoaden("Asset/")]
-    public class EffectLoader : ITFAWLoader
+    public class EffectLoader : RenderHandle, ITFAWLoader
     {
-        internal static EffectLoader Instance;
         public static Effect PowerSFShader;
         public static Effect KnifeRendering;
         public static Effect StarsTrail;
         public static Effect RTShader;
         public const string AssetPath = "ThisTianFaAndWuJingMod/Asset/";
         public const string AssetPath2 = "Asset/";
-        internal static RenderTarget2D screen;
         internal static float twistStrength = 0f;
-        void ITFAWLoader.LoadData() {
-            Instance = this;
-            On_FilterManager.EndCapture += new On_FilterManager.hook_EndCapture(FilterManager_EndCapture);
-            Main.OnResolutionChanged += Main_OnResolutionChanged;
-        }
-
-        void ITFAWLoader.UnLoadData() {
-            On_FilterManager.EndCapture -= new On_FilterManager.hook_EndCapture(FilterManager_EndCapture);
-            Main.OnResolutionChanged -= Main_OnResolutionChanged;
-            PowerSFShader = null;
-            KnifeRendering = null;
-        }
-
-        private void Main_OnResolutionChanged(Vector2 obj) {
-            screen?.Dispose();
-            screen = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
-        }
-
-        private void FilterManager_EndCapture(On_FilterManager.orig_EndCapture orig, FilterManager self
-            , RenderTarget2D finalTexture, RenderTarget2D screenTarget1, RenderTarget2D screenTarget2, Color clearColor) {
-            GraphicsDevice graphicsDevice = Main.instance.GraphicsDevice;
-
-            if (screen == null) {
-                screen = new RenderTarget2D(graphicsDevice, Main.screenWidth, Main.screenHeight);
-            }
-
-            if (Main.gameMenu) {
-                orig.Invoke(self, finalTexture, screenTarget1, screenTarget2, clearColor);
-                return;
-            }
-
+        public override void EndCaptureDraw(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, RenderTarget2D screenSwap) {
             if (HasWarpEffect(out List<IDrawWarp> warpSets, out List<IDrawWarp> warpSetsNoBlueshift)) {
                 if (warpSets.Count > 0) {
                     //绘制屏幕
-                    graphicsDevice.SetRenderTarget(screen);
+                    graphicsDevice.SetRenderTarget(screenSwap);
                     graphicsDevice.Clear(Color.Transparent);
                     Main.spriteBatch.Begin(0, BlendState.AlphaBlend);
                     Main.spriteBatch.Draw(Main.screenTarget, Vector2.Zero, Color.White);
@@ -83,7 +51,7 @@ namespace ThisTianFaAndWuJingMod.Core
                     effect.Parameters["noBlueshift"].SetValue(false);//这个部分的绘制需要使用蓝移效果
                     effect.Parameters["i"].SetValue(0.02f);
                     effect.CurrentTechnique.Passes[0].Apply();
-                    Main.spriteBatch.Draw(screen, Vector2.Zero, Color.White);
+                    Main.spriteBatch.Draw(screenSwap, Vector2.Zero, Color.White);
                     Main.spriteBatch.End();
 
                     Main.spriteBatch.Begin(default, BlendState.AlphaBlend, Main.DefaultSamplerState
@@ -93,7 +61,7 @@ namespace ThisTianFaAndWuJingMod.Core
                 }
                 if (warpSetsNoBlueshift.Count > 0) {
                     //绘制屏幕
-                    graphicsDevice.SetRenderTarget(screen);
+                    graphicsDevice.SetRenderTarget(screenSwap);
                     graphicsDevice.Clear(Color.Transparent);
                     Main.spriteBatch.Begin(0, BlendState.AlphaBlend);
                     Main.spriteBatch.Draw(Main.screenTarget, Vector2.Zero, Color.White);
@@ -118,7 +86,7 @@ namespace ThisTianFaAndWuJingMod.Core
                     effect.Parameters["noBlueshift"].SetValue(true);//这个部分的绘制不需要使用蓝移效果
                     effect.Parameters["i"].SetValue(0.02f);
                     effect.CurrentTechnique.Passes[0].Apply();
-                    Main.spriteBatch.Draw(screen, Vector2.Zero, Color.White);
+                    Main.spriteBatch.Draw(screenSwap, Vector2.Zero, Color.White);
                     Main.spriteBatch.End();
 
                     Main.spriteBatch.Begin(default, BlendState.AlphaBlend, Main.DefaultSamplerState
@@ -128,13 +96,13 @@ namespace ThisTianFaAndWuJingMod.Core
                 }
             }
 
-            if (HasPwoerEffect()) {
+            if (Main.LocalPlayer.ownedProjectileCounts[ModContent.ProjectileType<EndSkillOrbOnSpan>()] > 0) {
                 graphicsDevice.SetRenderTarget(Main.screenTargetSwap);
                 graphicsDevice.Clear(Color.Transparent);//用透明清除
                 Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
                 Main.spriteBatch.Draw(Main.screenTarget, Vector2.Zero, Color.White);
                 Main.spriteBatch.End();
-                graphicsDevice.SetRenderTarget(screen);
+                graphicsDevice.SetRenderTarget(screenSwap);
                 graphicsDevice.Clear(Color.Transparent);
                 Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointWrap
                     , DepthStencilState.None, RasterizerState.CullCounterClockwise, null, Main.Transform);
@@ -143,7 +111,7 @@ namespace ThisTianFaAndWuJingMod.Core
                 graphicsDevice.SetRenderTarget(Main.screenTarget);
                 graphicsDevice.Clear(Color.Transparent);
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-                PowerSFShader.Parameters["tex0"].SetValue(screen);
+                PowerSFShader.Parameters["tex0"].SetValue(screenSwap);
                 PowerSFShader.Parameters["i"].SetValue(twistStrength);
                 PowerSFShader.CurrentTechnique.Passes[0].Apply();
                 Main.spriteBatch.Draw(Main.screenTargetSwap, Vector2.Zero, Color.White);
@@ -158,7 +126,7 @@ namespace ThisTianFaAndWuJingMod.Core
                 Main.spriteBatch.Draw(Main.screenTarget, Vector2.Zero, Color.White);
                 Main.spriteBatch.End();
 
-                graphicsDevice.SetRenderTarget(screen);
+                graphicsDevice.SetRenderTarget(screenSwap);
                 graphicsDevice.Clear(Color.Transparent);
                 Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
                 PRT_RTSpark.DrawAll(Main.spriteBatch, prts);
@@ -175,7 +143,7 @@ namespace ThisTianFaAndWuJingMod.Core
                 RTShader.Parameters["m"].SetValue(0.08f);
                 RTShader.Parameters["n"].SetValue(0.01f);
                 RTShader.Parameters["OffsetX"].SetValue((float)((Main.GlobalTimeWrappedHourly) * 0.11f));
-                Main.spriteBatch.Draw(screen, Vector2.Zero, Color.White);
+                Main.spriteBatch.Draw(screenSwap, Vector2.Zero, Color.White);
                 Main.spriteBatch.End();
             }
 
@@ -186,7 +154,7 @@ namespace ThisTianFaAndWuJingMod.Core
                 Main.spriteBatch.Draw(Main.screenTarget, Vector2.Zero, Color.White);
                 Main.spriteBatch.End();
 
-                graphicsDevice.SetRenderTarget(screen);
+                graphicsDevice.SetRenderTarget(screenSwap);
                 graphicsDevice.Clear(Color.Transparent);
                 Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
                 endless.prtGroup.Draw(Main.spriteBatch);
@@ -203,16 +171,14 @@ namespace ThisTianFaAndWuJingMod.Core
                 RTShader.Parameters["m"].SetValue(0.08f);
                 RTShader.Parameters["n"].SetValue(0.01f);
                 RTShader.Parameters["OffsetX"].SetValue((float)((Main.GlobalTimeWrappedHourly) * 0.11f));
-                Main.spriteBatch.Draw(screen, Vector2.Zero, Color.White);
+                Main.spriteBatch.Draw(screenSwap, Vector2.Zero, Color.White);
                 Main.spriteBatch.End();
             }
 
             #endregion
-
-            orig.Invoke(self, finalTexture, screenTarget1, screenTarget2, clearColor);
         }
 
-        private void DrawPwoerEffect(SpriteBatch sb) {
+        private static void DrawPwoerEffect(SpriteBatch sb) {
             int targetProjType = ModContent.ProjectileType<EndSkillOrbOnSpan>();
             foreach (Projectile proj in Main.projectile) {
                 Vector2 offsetRotV = proj.rotation.ToRotationVector2() * 1500;
@@ -239,11 +205,7 @@ namespace ThisTianFaAndWuJingMod.Core
             }
         }
 
-        private bool HasPwoerEffect() {
-            return true;
-        }
-
-        private bool HasWarpEffect(out List<IDrawWarp> warpSets, out List<IDrawWarp> warpSetsNoBlueshift) {
+        private static bool HasWarpEffect(out List<IDrawWarp> warpSets, out List<IDrawWarp> warpSetsNoBlueshift) {
             warpSets = [];
             warpSetsNoBlueshift = [];
             foreach (Projectile p in Main.projectile) {
@@ -261,6 +223,5 @@ namespace ThisTianFaAndWuJingMod.Core
             }
             return warpSets.Count > 0 || warpSetsNoBlueshift.Count > 0;
         }
-
     }
 }

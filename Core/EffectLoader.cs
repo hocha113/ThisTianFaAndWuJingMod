@@ -15,13 +15,13 @@ namespace ThisTianFaAndWuJingMod.Core
     [VaultLoaden("Asset/")]
     public class EffectLoader : RenderHandle, ITFAWLoader
     {
-        public static Effect PowerSFShader;
-        public static Effect KnifeRendering;
-        public static Effect StarsTrail;
-        public static Effect RTShader;
+        internal static Effect StarsShader { get; set; }
+        internal static Effect PowerSFShader;
+        internal static Effect KnifeRendering;
+        internal static Effect StarsTrail;
+        internal static float twistStrength = 0f;
         public const string AssetPath = "ThisTianFaAndWuJingMod/Asset/";
         public const string AssetPath2 = "Asset/";
-        internal static float twistStrength = 0f;
         public override void EndCaptureDraw(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, RenderTarget2D screenSwap) {
             if (HasWarpEffect(out List<IDrawWarp> warpSets, out List<IDrawWarp> warpSetsNoBlueshift)) {
                 if (warpSets.Count > 0) {
@@ -138,11 +138,11 @@ namespace ThisTianFaAndWuJingMod.Core
                 Main.spriteBatch.Draw(Main.screenTargetSwap, Vector2.Zero, Color.White);
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-                graphicsDevice.Textures[1] = EndlessHeld.Sky.Value;
-                RTShader.CurrentTechnique.Passes[0].Apply();
-                RTShader.Parameters["m"].SetValue(0.08f);
-                RTShader.Parameters["n"].SetValue(0.01f);
-                RTShader.Parameters["OffsetX"].SetValue((float)((Main.GlobalTimeWrappedHourly) * 0.11f));
+                StarsShader.CurrentTechnique.Passes[0].Apply();
+                StarsShader.Parameters["m"].SetValue(0.08f);
+                StarsShader.Parameters["n"].SetValue(0.01f);
+                StarsShader.Parameters["uTime"].SetValue(Main.GlobalTimeWrappedHourly); // 传入游戏时间
+                StarsShader.Parameters["worldSize"].SetValue(Main.ScreenSize.ToVector2()); // 传入屏幕分辨率
                 Main.spriteBatch.Draw(screenSwap, Vector2.Zero, Color.White);
                 Main.spriteBatch.End();
             }
@@ -166,11 +166,11 @@ namespace ThisTianFaAndWuJingMod.Core
                 Main.spriteBatch.Draw(Main.screenTargetSwap, Vector2.Zero, Color.White);
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-                graphicsDevice.Textures[1] = EndlessHeld.Sky.Value;
-                RTShader.CurrentTechnique.Passes[0].Apply();
-                RTShader.Parameters["m"].SetValue(0.08f);
-                RTShader.Parameters["n"].SetValue(0.01f);
-                RTShader.Parameters["OffsetX"].SetValue((float)((Main.GlobalTimeWrappedHourly) * 0.11f));
+                StarsShader.CurrentTechnique.Passes[0].Apply();
+                StarsShader.Parameters["m"].SetValue(0.08f);
+                StarsShader.Parameters["n"].SetValue(0.01f);
+                StarsShader.Parameters["uTime"].SetValue(Main.GlobalTimeWrappedHourly); // 传入游戏时间
+                StarsShader.Parameters["worldSize"].SetValue(Main.ScreenSize.ToVector2()); // 传入屏幕分辨率
                 Main.spriteBatch.Draw(screenSwap, Vector2.Zero, Color.White);
                 Main.spriteBatch.End();
             }

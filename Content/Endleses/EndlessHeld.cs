@@ -21,11 +21,8 @@ namespace ThisTianFaAndWuJingMod.Content.Endleses
         public override string trailTexturePath => EffectLoader.AssetPath + "MotionTrail4";
         public override string gradientTexturePath => EffectLoader.AssetPath + "ShaduraGradient";
         internal PRTGroup prtGroup;
-        internal static Asset<Texture2D> Sky;
         Vector2 TargetPos;
         int starTime;
-        void ITFAWLoader.LoadAsset() => Sky = TFAWUtils.GetT2DAsset("ThisTianFaAndWuJingMod/Asset/StarrySky");
-        void ITFAWLoader.UnLoadData() => Sky = null;
         public override void SetKnifeProperty() {
             Projectile.width = Projectile.height = 282;
             overOffsetCachesRoting = MathHelper.ToRadians(8);
